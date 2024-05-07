@@ -3,10 +3,11 @@ import Image from "next/image";
 import icon from "@/asset/icon/icon";
 import SwitchImg from "@/components/loginForm/SwitchImg";
 import LoginForm from "@/components/loginForm/LoginForm";
+import LoginOthers from "@/components/loginForm/LoginOthers";
 
 const Login = () => {
   return (
-    <div className="flex flex w-screen h-screen justify-around items-center">
+    <div className="flex flex w-screen h-screen justify-center items-center gap-x-[15rem]">
       <div className="flex flex-col gap-[2rem]">
         <Image src={icon.Logo_black} alt="" />
         <div>
@@ -18,9 +19,9 @@ const Login = () => {
           </div>
         </div>
         <LoginForm />
+        <LoginOthers />
       </div>
       <SwitchImg />
-      <div></div>
     </div>
   );
 };
