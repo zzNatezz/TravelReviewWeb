@@ -36,7 +36,7 @@ const LoginForm = () => {
         <b className="text-[1rem] text-white">Log In</b>
       </button>
       <div className="font-[roboto] text-[0.7rem]">
-        Don't have an account?
+        Don&apos;t have an account?
         <Link className="text-red-400" href="">
           Sign Up
         </Link>

@@ -20,6 +20,7 @@ const Login = () => {
         <LoginForm />
       </div>
       <SwitchImg />
+      <div></div>
     </div>
   );
 };
