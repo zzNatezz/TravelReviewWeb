@@ -1,16 +1,16 @@
 "use client";
+import React, { useState } from "react";
+import Image from "next/image";
+import { useForm } from "react-hook-form";
 import icon from "@/asset/icon/icon";
 import Link from "next/link";
-import React, { useState } from "react";
-import { useForm } from "react-hook-form";
-import Image from "next/image";
 
 interface IFormLogin {
   email: string;
   password: string;
 }
 
-const LoginForm = () => {
+const SignUpForm = () => {
   const [showPass, setShowPass] = useState<boolean>(false);
   const {
     register,
@@ -20,7 +20,6 @@ const LoginForm = () => {
   const onSubmit = (data: IFormLogin) => {
     console.log("data", data);
   };
-
   return (
     <div className="flex flex-col items-center gap-[2rem]">
       <form
@@ -112,4 +111,4 @@ const LoginForm = () => {
   );
 };
 
-export default LoginForm;
+export default SignUpForm;

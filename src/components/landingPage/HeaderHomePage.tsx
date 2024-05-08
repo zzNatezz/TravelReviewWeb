@@ -33,7 +33,9 @@ const HeaderHomePage = () => {
         <button className="text-white">
           <Link href="/login">Login</Link>
         </button>
-        <button className="text-white">Sign-Up</button>
+        <button className="text-white">
+          <Link href="/account/register">Sign-Up</Link>
+        </button>
       </div>
     </div>
   );
