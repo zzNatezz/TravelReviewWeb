@@ -1,26 +1,26 @@
 import React from "react";
 import Image from "next/image";
-import icon from "@/asset/icon/icon";
 import SwitchImg from "@/components/loginForm/SwitchImg";
-import LoginForm from "@/components/loginForm/LoginForm";
-import LoginOthers from "@/components/loginForm/LoginOthers";
+import icon from "@/asset/icon/icon";
+import ForgotPForm from "@/components/loginForm/Forgot/ForgotPForm";
+import BackLogin from "@/components/loginForm/Forgot/BackLogin";
 
-const Login = () => {
+const forgotPassword = () => {
   return (
     <div className="flex w-screen h-screen justify-center items-center">
       <div className="flex flex w-[1860px] h-screen justify-center items-center gap-x-[15rem]">
         <div className="flex flex-col gap-[2rem]">
+          <BackLogin />
           <Image src={icon.Logo_black} alt="" />
           <div>
             <h1 className="text-[40px]">
-              <b>Login</b>
+              <b>Forgot password ?</b>
             </h1>
             <div className="font-Montserrat">
-              Login to access your Golobe account
+              Don&apos;t worry, type your email and set the new password
             </div>
           </div>
-          <LoginForm />
-          <LoginOthers />
+          <ForgotPForm />
         </div>
         <SwitchImg />
       </div>
@@ -28,4 +28,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default forgotPassword;

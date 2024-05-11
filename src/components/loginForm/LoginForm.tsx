@@ -9,7 +9,7 @@ interface IFormLogin {
   email: string;
   password: string;
 }
-
+//absolute bottom-[1.5rem] left-[1rem] bg-white px-[5px] text-[0.8rem]
 const LoginForm = () => {
   const [showPass, setShowPass] = useState<boolean>(false);
   const {
@@ -29,20 +29,26 @@ const LoginForm = () => {
         action="submit"
       >
         <div className="flex flex-col gap-[1em] ">
-          <input
-            {...register("email", {
-              required: "email is required",
-              pattern: {
-                value:
-                  /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
-                message: "The email is incorrect",
-              },
-            })}
-            className="outline outline-1 rounded-[5px] w-[19rem] h-[2rem] text-[0.7rem] px-[0.2rem]"
-            type="text"
-            placeholder="Type email"
-            required
-          />
+          <div className="relative">
+            <input
+              {...register("email", {
+                required: "email is required",
+                pattern: {
+                  value:
+                    /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
+                  message: "The email is incorrect",
+                },
+              })}
+              className="outline outline-1 rounded-[5px] w-[19rem] h-[2rem] text-[0.7rem] px-[0.2rem]"
+              type="text"
+              placeholder="Type email"
+              required
+            />
+            <div className="absolute bottom-[1.5rem] left-[1rem] bg-white px-[5px] text-[0.8rem] ">
+              Email
+            </div>
+          </div>
+
           {errors.email && (
             <p className="w-[19rem] text-red-500 text-[0.7rem]">
               {errors.email.message}
@@ -71,6 +77,9 @@ const LoginForm = () => {
               src={showPass ? icon.eye_open : icon.eye_closed}
               alt=""
             ></Image>
+            <div className="absolute bottom-[1.5rem] left-[1rem] bg-white px-[5px] text-[0.8rem]">
+              Password
+            </div>
           </div>
 
           {errors.password && (
@@ -86,7 +95,10 @@ const LoginForm = () => {
             </label>
             <input type="checkbox" name="Remember me" id="" />
           </div>
-          <Link className="text-red-400	text-[0.7rem]" href="">
+          <Link
+            className="text-red-400	text-[0.7rem]"
+            href="/account/forgotPassword"
+          >
             Forgot Password
           </Link>
         </div>

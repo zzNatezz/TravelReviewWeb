@@ -7,6 +7,7 @@ import icon_google from '@/asset/icon/icon_google.svg'
 import icon_apple from '@/asset/icon/icon_apple.svg'
 import eye_open from '@/asset/icon/eye.svg'
 import eye_closed from '@/asset/icon/eye-closed.svg'
+import back_arrow from '@/asset/icon/bac-arrow.svg'
 
 const icon : {
     icon_airplane :  string,
@@ -18,6 +19,7 @@ const icon : {
     icon_apple : string,
     eye_open : string,
     eye_closed : string,
+    back_arrow : string,
 } = {
     icon_airplane,
     Logo,
@@ -27,7 +29,8 @@ const icon : {
     icon_fb,
     icon_google,
     eye_open,
-    eye_closed
+    eye_closed,
+    back_arrow
 }
 
 export default icon
