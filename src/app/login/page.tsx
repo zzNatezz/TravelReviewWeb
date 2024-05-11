@@ -7,23 +7,21 @@ import LoginOthers from "@/components/loginForm/LoginOthers";
 
 const Login = () => {
   return (
-    <div className="flex w-screen h-screen justify-center items-center">
-      <div className="flex flex w-[1860px] h-screen justify-center items-center gap-x-[15rem]">
-        <div className="flex flex-col gap-[2rem]">
-          <Image src={icon.Logo_black} alt="" />
-          <div>
-            <h1 className="text-[40px]">
-              <b>Login</b>
-            </h1>
-            <div className="font-Montserrat">
-              Login to access your Golobe account
-            </div>
+    <div className="flex flex w-screen h-screen justify-center items-center gap-x-[15rem]">
+      <div className="flex flex-col gap-[2rem] w-[305px]">
+        <Image src={icon.Logo_black} alt="" />
+        <div>
+          <h1 className="text-[40px]">
+            <b>Login</b>
+          </h1>
+          <div className="font-Montserrat">
+            Login to access your Golobe account
           </div>
-          <LoginForm />
-          <LoginOthers />
         </div>
-        <SwitchImg />
+        <LoginForm />
+        <LoginOthers />
       </div>
+      <SwitchImg />
     </div>
   );
 };
