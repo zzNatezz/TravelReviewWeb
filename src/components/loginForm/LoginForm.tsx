@@ -59,9 +59,9 @@ const LoginForm = () => {
               {...register("password", {
                 required: "password is required",
                 pattern: {
-                  value: /"^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$"/,
+                  value: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/,
                   message:
-                    "Password need minimum eight characters, at least one letter and one number",
+                    "Minimum eight characters, at least one uppercase letter, one lowercase letter and one number:",
                 },
               })}
               className="outline outline-1 rounded-[5px] w-[19rem] h-[2rem] text-[0.7rem] px-[0.2rem]"

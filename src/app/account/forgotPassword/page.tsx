@@ -12,7 +12,7 @@ const forgotPassword = () => {
         <BackLogin />
         <Image src={icon.Logo_black} alt="" />
         <div>
-          <h1 className="text-[40px]">
+          <h1 className="text-[25px]">
             <b>Forgot password ?</b>
           </h1>
           <div className="font-Montserrat">
