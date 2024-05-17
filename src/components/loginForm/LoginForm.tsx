@@ -33,6 +33,8 @@ const LoginForm = () => {
         { email: emailUser, password: password }
       );
       if (user) {
+        console.log(user);
+
         toast.success("Login successfully");
       }
     } catch (error) {
