@@ -4,21 +4,42 @@ import Link from "next/link";
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import Image from "next/image";
+// import { useDispatch } from "react-redux";
+import axios from "axios";
+import toast from "react-hot-toast";
 
 interface IFormLogin {
   email: string;
   password: string;
 }
-//absolute bottom-[1.5rem] left-[1rem] bg-white px-[5px] text-[0.8rem]
+
 const LoginForm = () => {
   const [showPass, setShowPass] = useState<boolean>(false);
+  const [loading, setLoading] = useState<boolean>(false);
+  const [emailUser, setEmailUser] = useState<string>("");
+  const [password, setPassword] = useState<string>("");
+  // const dispatch = useDispatch();
+
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm<IFormLogin>();
-  const onSubmit = (data: IFormLogin) => {
-    console.log("data", data);
+  const onSubmit = async () => {
+    setLoading(true);
+    try {
+      const user = await axios.post(
+        "https://be-travel-review.vercel.app/v1/auth/login",
+        { email: emailUser, password: password }
+      );
+      if (user) {
+        toast.success("Login successfully");
+      }
+    } catch (error) {
+      toast.error("Something went wrong");
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -43,6 +64,8 @@ const LoginForm = () => {
               type="text"
               placeholder="Type email"
               required
+              value={emailUser}
+              onChange={(e) => setEmailUser(e.target.value)}
             />
             <div className="absolute bottom-[1.5rem] left-[1rem] bg-white px-[5px] text-[0.8rem] ">
               Email
@@ -68,6 +91,8 @@ const LoginForm = () => {
               type={showPass ? "text" : "password"}
               placeholder="Password"
               required
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
             />
             <Image
               onClick={() => setShowPass(!showPass)}
