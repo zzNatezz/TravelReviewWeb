@@ -1,11 +1,11 @@
 import { configureStore } from '@reduxjs/toolkit';
-import loginReducer from '../components/reduxFeature/loginState'
+import authReducer from '@/components/reduxFeature/authState'
 
 
 export const makeStore = () => {
   return configureStore({
     reducer : {
-      loginStatus : loginReducer,
+      authState : authReducer,
     },
   })
 }

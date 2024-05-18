@@ -4,9 +4,11 @@ import Link from "next/link";
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import Image from "next/image";
-// import { useDispatch } from "react-redux";
+import { useDispatch } from "react-redux";
 import axios from "axios";
 import toast from "react-hot-toast";
+import { ApiLogin } from "../reduxFeature/apiCall";
+import { useRouter } from "next/navigation";
 
 interface IFormLogin {
   email: string;
@@ -18,30 +20,46 @@ const LoginForm = () => {
   const [loading, setLoading] = useState<boolean>(false);
   const [emailUser, setEmailUser] = useState<string>("");
   const [password, setPassword] = useState<string>("");
-  // const dispatch = useDispatch();
+  const [loginState, setLoginState] = useState<boolean>(false);
+  const dispatch = useDispatch();
+  const router = useRouter();
+  //"https://be-travel-review.vercel.app/v1/auth/login",
 
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm<IFormLogin>();
-  const onSubmit = async () => {
-    setLoading(true);
-    try {
-      const user = await axios.post(
-        "https://be-travel-review.vercel.app/v1/auth/login",
-        { email: emailUser, password: password }
-      );
-      if (user) {
-        console.log(user);
+  // const onSubmit = async (e: any) => {
+  //   e.preventDefault();
+  //   setLoading(true);
+  //   try {
+  //     const user = await axios
+  //       .post(
+  //         "https://be-travel-review.vercel.app/v1/auth/login",
+  //         {
+  //           email: emailUser,
+  //           password: password,
+  //         },
+  //         {
+  //           withCredentials: true,
+  //         }
+  //       )
+  //       .then(() => toast.success("Login Successfully"));
+  //     if (user) {
+  //       setLoginState(true);
+  //     }
+  //   } catch (error) {
+  //     toast.error("Please double check email and password");
+  //     console.log(errors);
+  //   } finally {
+  //     setLoading(false);
+  //   }
+  // };
 
-        toast.success("Login successfully");
-      }
-    } catch (error) {
-      toast.error("Something went wrong");
-    } finally {
-      setLoading(false);
-    }
+  const onSubmit = async (e: any) => {
+    const newUser = { email: emailUser, password: password };
+    ApiLogin(newUser, dispatch, router);
   };
 
   return (
@@ -147,6 +165,7 @@ const LoginForm = () => {
           Or login with
         </span>
       </div>
+      <div>{loginState ? "Đã đăng nhập" : "Chưa đăng nhập"}</div>
     </div>
   );
 };
