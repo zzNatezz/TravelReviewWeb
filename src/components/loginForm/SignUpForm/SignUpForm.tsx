@@ -3,7 +3,10 @@ import React, { useState } from "react";
 import Image from "next/image";
 import { useForm } from "react-hook-form";
 import icon from "@/asset/icon/icon";
-import Link from "next/link";
+import { ApiRegister } from "@/components/reduxFeature/apiCall";
+import toast from "react-hot-toast";
+import { useDispatch } from "react-redux";
+import { useRouter } from "next/navigation";
 
 interface SignUpValue {
   firstName?: string;
@@ -13,46 +16,63 @@ interface SignUpValue {
   password: string;
   confirm_password: string;
 }
-//absolute bottom-[1.5rem] left-[1rem] bg-white px-[5px] text-[0.8rem]
 
 const SignUpForm = () => {
   const [showPass, setShowPass] = useState<boolean>(false);
+  const [emailUser, setEmailUser] = useState<string>("");
+  const [password, setPassword] = useState<string>("");
+  const [passwordConfirm, setPasswordConfirm] = useState<string>("");
+
+  const dispatch = useDispatch();
+  const router = useRouter();
+
+  const handleRegister = (form: any, e: any) => {
+    e.preventDefault();
+    if (password === passwordConfirm) {
+      const newUser = {
+        email: emailUser,
+        password,
+      };
+      ApiRegister(newUser, dispatch, router);
+    } else {
+      return toast.error("Password do not match");
+    }
+  };
+
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm<SignUpValue>();
-  const onSubmit = (data: SignUpValue) => {
-    console.log("data", data);
-  };
+
   return (
     <div className="flex flex-col items-center gap-[2rem]">
       <form
-        onSubmit={handleSubmit(onSubmit)}
+        onSubmit={handleSubmit(handleRegister)}
         className="font-Montserrat flex flex-col items-center gap-y-[2rem]"
         action="submit"
       >
         <div className="flex justify-between gap-[1rem]">
           <div className="relative">
             <label className="absolute bottom-[1.5rem] left-[1rem] bg-white px-[5px] text-[0.8rem]">
-              First Name
+              First Name &#40;Optional&#41;
             </label>
             <input
               {...register("firstName")}
               className="outline outline-1 rounded-[5px] w-[14.5rem] h-[2rem] text-[0.7rem] px-[0.2rem]"
               type="text"
-              placeholder="Type your name"
+              placeholder="Type your name)"
             />
           </div>
           <div className="relative">
             <label className="absolute bottom-[1.5rem] left-[1rem] bg-white px-[5px] text-[0.8rem]">
-              Last Name
+              Last Name &#40;Optional&#41;
             </label>
             <input
               {...register("lastName")}
               className="outline outline-1 rounded-[5px] w-[14.5rem] h-[2rem] text-[0.7rem] px-[0.2rem]"
               type="text"
-              placeholder="Type your name"
+              placeholder="Type your name)"
             />
           </div>
         </div>
@@ -63,7 +83,6 @@ const SignUpForm = () => {
             </label>
             <input
               {...register("email", {
-                required: "Email is required",
                 pattern: {
                   value:
                     /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
@@ -74,35 +93,44 @@ const SignUpForm = () => {
               type="text"
               placeholder="Type email"
               required
+              value={emailUser}
+              onChange={(e) => setEmailUser(e.target.value)}
             />
           </div>
           <div className="relative">
             <label className="absolute bottom-[1.5rem] left-[1rem] bg-white px-[5px] text-[0.8rem]">
-              Phone number
+              Phone number &#40;Optional&#41;
             </label>
             <input
               {...register("phoneNumber")}
               className="outline outline-1 rounded-[5px] w-[14.5rem] h-[2rem] text-[0.7rem] px-[0.2rem]"
               type="text"
-              placeholder="Type your phone number"
+              placeholder="Type your phone number)"
             />
           </div>
         </div>
+        {errors.email && (
+          <p className="w-[14.5rem] h-[0.1rem] text-red-500 text-[0.7rem] text-center">
+            {errors.email.message}
+          </p>
+        )}
+        {/* End of Email and phone Number */}
         <div className="flex flex-col gap-[2em] ">
           <div className="relative flex items-center">
             <input
               {...register("password", {
-                required: "password is required",
                 pattern: {
-                  value: /"^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$"/,
+                  value: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/,
                   message:
-                    "Password need minimum eight characters, at least one letter and one number",
+                    "Minimum eight characters, at least one uppercase letter, one lowercase letter and one number:",
                 },
               })}
               className="outline outline-1 rounded-[5px] w-[30rem] h-[2rem] text-[0.7rem] px-[0.2rem]"
               type={showPass ? "text" : "password"}
               placeholder="Password"
               required
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
             />
             <Image
               onClick={() => setShowPass(!showPass)}
@@ -116,25 +144,21 @@ const SignUpForm = () => {
               Password
             </div>
           </div>
-          {errors.email && (
-            <p className="w-[19rem] text-red-500 text-[0.7rem]">
-              {errors.email.message}
-            </p>
-          )}
           <div className="relative flex items-center">
             <input
               {...register("confirm_password", {
-                required: "Password do not match",
                 pattern: {
-                  value: /"^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$"/,
+                  value: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/,
                   message:
-                    "Password need minimum eight characters, at least one letter and one number",
+                    "Minimum eight characters, at least one uppercase letter, one lowercase letter and one number:",
                 },
               })}
               className="outline outline-1 rounded-[5px] w-[30rem] h-[2rem] text-[0.7rem] px-[0.2rem]"
               type={showPass ? "text" : "password"}
               placeholder="Please confirm your password"
               required
+              value={passwordConfirm}
+              onChange={(e) => setPasswordConfirm(e.target.value)}
             />
             <Image
               onClick={() => setShowPass(!showPass)}
@@ -162,8 +186,11 @@ const SignUpForm = () => {
             <b className="text-red-500"> Privacy Policies</b>
           </label>
         </div>
-        <button className="outline-cyan-300 outline-1 rounded-[5px] w-[30rem] h-[2rem] text-[0.7rem] px-[0.2rem] bg-cyan-300">
-          <b className="text-[1rem] text-white">Create Account</b>
+        <button
+          type="submit"
+          className="outline-cyan-300 outline-1 rounded-[5px] w-[30rem] h-[2rem] text-[0.7rem] px-[0.2rem] bg-cyan-300 text-[1rem] text-white font-bold"
+        >
+          Create Account
         </button>
       </form>
       <div className="text-center border-b border-gray-600 w-[19rem] leading-[0.1em] mx-0 mt-[10px] mb-[20px]">

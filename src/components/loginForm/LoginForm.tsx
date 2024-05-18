@@ -5,8 +5,6 @@ import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import Image from "next/image";
 import { useDispatch } from "react-redux";
-import axios from "axios";
-import toast from "react-hot-toast";
 import { ApiLogin } from "../reduxFeature/apiCall";
 import { useRouter } from "next/navigation";
 
@@ -20,7 +18,6 @@ const LoginForm = () => {
   const [loading, setLoading] = useState<boolean>(false);
   const [emailUser, setEmailUser] = useState<string>("");
   const [password, setPassword] = useState<string>("");
-  const [loginState, setLoginState] = useState<boolean>(false);
   const dispatch = useDispatch();
   const router = useRouter();
   //"https://be-travel-review.vercel.app/v1/auth/login",
@@ -30,36 +27,13 @@ const LoginForm = () => {
     handleSubmit,
     formState: { errors },
   } = useForm<IFormLogin>();
-  // const onSubmit = async (e: any) => {
-  //   e.preventDefault();
-  //   setLoading(true);
-  //   try {
-  //     const user = await axios
-  //       .post(
-  //         "https://be-travel-review.vercel.app/v1/auth/login",
-  //         {
-  //           email: emailUser,
-  //           password: password,
-  //         },
-  //         {
-  //           withCredentials: true,
-  //         }
-  //       )
-  //       .then(() => toast.success("Login Successfully"));
-  //     if (user) {
-  //       setLoginState(true);
-  //     }
-  //   } catch (error) {
-  //     toast.error("Please double check email and password");
-  //     console.log(errors);
-  //   } finally {
-  //     setLoading(false);
-  //   }
-  // };
 
-  const onSubmit = async (e: any) => {
+  const onSubmit = async (form: any, e: any) => {
+    e.preventDefault();
+    setLoading(true);
     const newUser = { email: emailUser, password: password };
     ApiLogin(newUser, dispatch, router);
+    setLoading(false);
   };
 
   return (
@@ -73,7 +47,6 @@ const LoginForm = () => {
           <div className="relative">
             <input
               {...register("email", {
-                required: "email is required",
                 pattern: {
                   value:
                     /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
@@ -100,7 +73,6 @@ const LoginForm = () => {
           <div className="relative flex items-center">
             <input
               {...register("password", {
-                required: "password is required",
                 pattern: {
                   value: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/,
                   message:
@@ -147,8 +119,11 @@ const LoginForm = () => {
             Forgot Password
           </Link>
         </div>
-        <button className="outline-cyan-300 outline-1 rounded-[5px] w-[19rem] h-[2rem] text-[0.7rem] px-[0.2rem] bg-cyan-300">
-          <b className="text-[1rem] text-white">Log In</b>
+        <button
+          type="submit"
+          className="outline-cyan-300 outline-1 rounded-[5px] w-[19rem] h-[2rem] text-[0.7rem] px-[0.2rem] bg-cyan-300 text-white font-bold	text-[1rem]"
+        >
+          Log In
         </button>
         <div className="font-[roboto] text-[0.7rem]">
           Don&apos;t have an account?
@@ -165,7 +140,6 @@ const LoginForm = () => {
           Or login with
         </span>
       </div>
-      <div>{loginState ? "Đã đăng nhập" : "Chưa đăng nhập"}</div>
     </div>
   );
 };
