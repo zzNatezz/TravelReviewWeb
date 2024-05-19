@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 
-export interface auth {
+interface auth {
     currentUser : string,
     isFetching : boolean,
     error : boolean

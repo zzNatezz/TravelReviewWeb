@@ -6,7 +6,6 @@ import { useForm } from "react-hook-form";
 interface forgotFormvalue {
   email: string;
 }
-//absolute bottom-[1.5rem] left-[1rem] bg-white px-[5px] text-[0.8rem]
 const ForgotPForm = () => {
   const {
     register,

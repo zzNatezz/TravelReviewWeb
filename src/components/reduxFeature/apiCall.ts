@@ -2,6 +2,7 @@ import axios from "axios";
 import { loginFail, loginStart, loginSuccess } from "./authState";
 import toast from "react-hot-toast";
 import { registerFail, registerStart, registerSuccess } from "./registerRedux";
+import { getUserListFail, getUserListStart, getUserListSuccess } from "./getAlluser";
 
 export const ApiLogin = async (user:any, dispatch : any, router :any) => {
     dispatch(loginStart());
@@ -20,10 +21,40 @@ export const ApiRegister = async (user : any, dispatch : any, router : any) => {
     dispatch(registerStart());
     try {
         await axios.post("https://be-travel-review.vercel.app/v1/auth/register", user)
-        await dispatch(registerSuccess()).then(() =>toast.success('Register Successfully'));
+        dispatch(registerSuccess());
+        toast.success('Register Successfully');
         router.push('/login')
     } catch (error) {
         toast.error('Something went wrong, please try again')
+        console.log(error);
+        
         dispatch(registerFail())
+    }
+}
+
+// export const ApiRefToken = async() =>{
+//     try {
+//         const res = await axios.post("https://be-travel-review.vercel.app/v1/auth/refresh",{withCredentials : true})
+//         console.log(res);
+//         toast.success("Authenticated")
+//         return res.data
+//     } catch (error :any) {
+//         toast.error(error?.response?.data)
+//         console.log(error);
+        
+//     }
+// }
+
+export const ApiGetAllUser = async(accessToken : any ,dispatch : any , axiosJWT : any) =>{
+    dispatch(getUserListStart());
+    try {
+        const res = await axiosJWT.get('https://be-travel-review.vercel.app/v1/user', {
+            headers : {token : `Bearer ${accessToken}`}
+        }); 
+        dispatch(getUserListSuccess(res.data))
+    } catch (error) {
+        dispatch(getUserListFail())
+        console.log(error);
+        
     }
 }
