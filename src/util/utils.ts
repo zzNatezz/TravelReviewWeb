@@ -1,3 +1,5 @@
+import { StaticImageData } from "next/image";
+
 export   interface IuserLogin {
     user: {
         _id : string
@@ -12,4 +14,8 @@ export   interface IuserLogin {
 
   export interface InewAccessToken{
     new_access_token : string
+  }
+
+  export interface IReview extends StaticImageData{
+    review ?: any
   }
