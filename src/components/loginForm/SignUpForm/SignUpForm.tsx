@@ -55,22 +55,11 @@ const SignUpForm = () => {
         <div className="flex justify-between gap-[1rem]">
           <div className="relative">
             <label className="absolute bottom-[1.5rem] left-[1rem] bg-white px-[5px] text-[0.8rem]">
-              First Name &#40;Optional&#41;
+              User name &#40;Optional&#41;
             </label>
             <input
               {...register("firstName")}
-              className="outline outline-1 rounded-[5px] w-[14.5rem] h-[2rem] text-[0.7rem] px-[0.2rem]"
-              type="text"
-              placeholder="Type your name)"
-            />
-          </div>
-          <div className="relative">
-            <label className="absolute bottom-[1.5rem] left-[1rem] bg-white px-[5px] text-[0.8rem]">
-              Last Name &#40;Optional&#41;
-            </label>
-            <input
-              {...register("lastName")}
-              className="outline outline-1 rounded-[5px] w-[14.5rem] h-[2rem] text-[0.7rem] px-[0.2rem]"
+              className="outline outline-1 rounded-[5px] w-[30rem] h-[2rem] text-[0.7rem] px-[0.2rem]"
               type="text"
               placeholder="Type your name)"
             />
@@ -89,7 +78,7 @@ const SignUpForm = () => {
                   message: "Email is invalid",
                 },
               })}
-              className="outline outline-1 rounded-[5px] w-[14.5rem] h-[2rem] text-[0.7rem] px-[0.2rem]"
+              className="outline outline-1 rounded-[5px] w-[30rem] h-[2rem] text-[0.7rem] px-[0.2rem]"
               type="text"
               placeholder="Type email"
               required
@@ -97,20 +86,9 @@ const SignUpForm = () => {
               onChange={(e) => setEmailUser(e.target.value)}
             />
           </div>
-          <div className="relative">
-            <label className="absolute bottom-[1.5rem] left-[1rem] bg-white px-[5px] text-[0.8rem]">
-              Phone number &#40;Optional&#41;
-            </label>
-            <input
-              {...register("phoneNumber")}
-              className="outline outline-1 rounded-[5px] w-[14.5rem] h-[2rem] text-[0.7rem] px-[0.2rem]"
-              type="text"
-              placeholder="Type your phone number)"
-            />
-          </div>
         </div>
         {errors.email && (
-          <p className="w-[14.5rem] h-[0.1rem] text-red-500 text-[0.7rem] text-center">
+          <p className="w-[30rem] h-[0.1rem] text-red-500 text-[0.7rem] text-center">
             {errors.email.message}
           </p>
         )}

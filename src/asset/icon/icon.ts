@@ -9,6 +9,8 @@ import eye_open from '@/asset/icon/eye.svg'
 import eye_closed from '@/asset/icon/eye-closed.svg'
 import back_arrow from '@/asset/icon/bac-arrow.svg'
 import worldwide from '@/asset/icon/worldwideIconi.svg'
+import picture from '@/asset/icon/picture.svg'
+import defaultAvatar from '@/asset/icon/defaultAvatar.svg'
 
 const icon : {
     icon_airplane :  string,
@@ -22,6 +24,8 @@ const icon : {
     eye_closed : string,
     back_arrow : string,
     worldwide : string,
+    picture: string,
+    defaultAvatar: string,
 } = {
     icon_airplane,
     Logo,
@@ -33,7 +37,9 @@ const icon : {
     eye_open,
     eye_closed,
     back_arrow,
-    worldwide
+    worldwide,
+    picture,
+    defaultAvatar,
 }
 
 export default icon

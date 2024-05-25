@@ -4,6 +4,7 @@ import Image from "next/image";
 import image from "@/asset/picture/image";
 import icon from "@/asset/icon/icon";
 import DoUThink from "@/components/landingPage/DoUThink";
+import Allpost from "@/components/landingPage/Allpost";
 
 export default function Home() {
   return (
@@ -19,6 +20,7 @@ export default function Home() {
         alt=""
       />
       <DoUThink />
+      <Allpost />
     </div>
   );
 }
