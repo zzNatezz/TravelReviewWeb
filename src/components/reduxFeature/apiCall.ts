@@ -3,6 +3,7 @@ import { loginFail, loginStart, loginSuccess } from "./authState";
 import toast from "react-hot-toast";
 import { registerFail, registerStart, registerSuccess } from "./registerRedux";
 import { getUserListFail, getUserListStart, getUserListSuccess } from "./getAlluser";
+import { getPostFail, getPostStart, getPostSuccess } from "./getPostId";
 
 export const ApiLogin = async (user:any, dispatch : any, router :any) => {
     dispatch(loginStart());
@@ -54,6 +55,19 @@ export const ApiGetAllUser = async(accessToken : any ,dispatch : any , axiosJWT 
         dispatch(getUserListSuccess(res.data))
     } catch (error) {
         dispatch(getUserListFail())
+        console.log(error);
+        
+    }
+}
+
+export const ApiGetpostWithID = async(postId : string , dispatch : any) =>{
+    dispatch(getPostStart())
+    try {
+        const res = await axios.get(`https://be-travel-review.vercel.app/v1/content/${postId}`)
+        console.log(res.data);
+        dispatch(getPostSuccess(res.data))
+    } catch (error) {
+        dispatch(getPostFail())
         console.log(error);
         
     }

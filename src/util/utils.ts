@@ -19,3 +19,8 @@ export   interface IuserLogin {
   export interface IReview extends StaticImageData{
     review ?: any
   }
+
+  export interface IpopUp {
+    item : any,
+    index ?: number
+  }

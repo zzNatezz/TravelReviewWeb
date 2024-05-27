@@ -8,12 +8,12 @@ import Allpost from "@/components/landingPage/Allpost";
 
 export default function Home() {
   return (
-    <div className="relative flex flex-col items-center w-screen h-screen">
+    <div className="flex flex-col items-center w-screen h-screen">
       <HeaderHomePage />
       <Image className="absolute pt-[3rem]" src={icon.Logo} alt="golobe_logo" />
 
       <Image
-        className="pt-[1rem] brightness-75 z-[-100] "
+        className="pt-[1rem] brightness-75 z-[-1] "
         width="1380"
         height="580"
         src={image.boatAndSee}

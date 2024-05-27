@@ -11,6 +11,11 @@ import back_arrow from '@/asset/icon/bac-arrow.svg'
 import worldwide from '@/asset/icon/worldwideIconi.svg'
 import picture from '@/asset/icon/picture.svg'
 import defaultAvatar from '@/asset/icon/defaultAvatar.svg'
+import chatIcon from '@/asset/icon/chat.svg'
+import hearActice from '@/asset/icon/hear_active.svg'
+import heatUnactive from '@/asset/icon/heart_unactive.svg'
+import shareIcon from '@/asset/icon/share.svg'
+import closeIcon from '@/asset/icon/closeIcon.svg'
 
 const icon : {
     icon_airplane :  string,
@@ -26,6 +31,11 @@ const icon : {
     worldwide : string,
     picture: string,
     defaultAvatar: string,
+    shareIcon: string,
+    hearActice: string,
+    heatUnactive: string,
+    chatIcon: string,
+    closeIcon : string
 } = {
     icon_airplane,
     Logo,
@@ -40,6 +50,11 @@ const icon : {
     worldwide,
     picture,
     defaultAvatar,
+    shareIcon,
+    hearActice,
+    heatUnactive,
+    chatIcon,
+    closeIcon
 }
 
 export default icon

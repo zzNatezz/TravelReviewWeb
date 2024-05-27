@@ -9,9 +9,7 @@ import { useDispatch } from "react-redux";
 import { useRouter } from "next/navigation";
 
 interface SignUpValue {
-  firstName?: string;
-  lastName?: string;
-  phoneNumber?: number;
+  userName?: string;
   email: string;
   password: string;
   confirm_password: string;
@@ -58,7 +56,7 @@ const SignUpForm = () => {
               User name &#40;Optional&#41;
             </label>
             <input
-              {...register("firstName")}
+              {...register("userName")}
               className="outline outline-1 rounded-[5px] w-[30rem] h-[2rem] text-[0.7rem] px-[0.2rem]"
               type="text"
               placeholder="Type your name)"

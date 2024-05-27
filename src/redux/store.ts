@@ -2,6 +2,8 @@ import { configureStore } from '@reduxjs/toolkit';
 import authReducer from '@/components/reduxFeature/authState';
 import registerReducer from '@/components/reduxFeature/registerRedux'
 import userListReducer from "@/components/reduxFeature/getAlluser"
+import modalReducer from "@/components/reduxFeature/modal"
+import getPostReducer from '@/components/reduxFeature/getPostId'
 
 
 export const makeStore = () => {
@@ -9,7 +11,9 @@ export const makeStore = () => {
     reducer : {
       authState : authReducer,
       register  : registerReducer,
-      userList : userListReducer
+      userList : userListReducer,
+      modalState : modalReducer,
+      getPost : getPostReducer
     },
   })
 }
