@@ -107,6 +107,7 @@ const PopUpCommentWithOutImg = ({ item, index }: IpopUp) => {
       <div className="border-t-2 my-[2rem] pt-[2rem] w-[40rem] ">
         {commentList?.map((item: any, index: number) => (
           <div
+            key={index}
             className={
               index % 2 === 0
                 ? "bg-white p-[1rem] flex items-center justify-between gap-x-[0.5rem]"
