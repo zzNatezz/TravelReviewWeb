@@ -106,8 +106,32 @@ const PopUpCommentWithOutImg = ({ item, index }: IpopUp) => {
       </form>
       <div className="border-t-2 my-[2rem] pt-[2rem] w-[40rem] ">
         {commentList?.map((item: any, index: number) => (
-          <div className={index % 2 === 0 ? "bg-white" : "bg-gray-200"}>
-            {item?.comment}
+          <div
+            className={
+              index % 2 === 0
+                ? "bg-white p-[1rem] flex items-center justify-between gap-x-[0.5rem]"
+                : "bg-gray-200 rounded-xl p-[1rem] flex items-center justify-between gap-x-[1rem] "
+            }
+          >
+            <div className="flex items-center gap-x-[1rem]">
+              <div className="flex flex-col items-center gap-x-[0.5rem] ">
+                <div className="w-max">{item?.userId?.userName}</div>
+                <Image
+                  style={{ width: "50px", height: "50px" }}
+                  width={200}
+                  height={200}
+                  unoptimized
+                  src={
+                    item?.userId.avatar.url === ""
+                      ? icon.defaultAvatar
+                      : item?.userId.avatar.ur
+                  }
+                  alt=""
+                />
+              </div>
+              <div className="">{item?.comment}</div>
+            </div>
+            <Image width={30} height={30} src={icon.settingIcon} alt="" />
           </div>
         ))}
       </div>

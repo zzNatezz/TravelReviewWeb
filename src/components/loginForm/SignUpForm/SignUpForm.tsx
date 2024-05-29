@@ -9,7 +9,7 @@ import { useDispatch } from "react-redux";
 import { useRouter } from "next/navigation";
 
 interface SignUpValue {
-  userName?: string;
+  userName: string;
   email: string;
   password: string;
   confirm_password: string;
@@ -20,6 +20,7 @@ const SignUpForm = () => {
   const [emailUser, setEmailUser] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [passwordConfirm, setPasswordConfirm] = useState<string>("");
+  const [userName, setUserName] = useState<string>("");
 
   const dispatch = useDispatch();
   const router = useRouter();
@@ -28,6 +29,7 @@ const SignUpForm = () => {
     e.preventDefault();
     if (password === passwordConfirm) {
       const newUser = {
+        userName,
         email: emailUser,
         password,
       };
@@ -53,13 +55,16 @@ const SignUpForm = () => {
         <div className="flex justify-between gap-[1rem]">
           <div className="relative">
             <label className="absolute bottom-[1.5rem] left-[1rem] bg-white px-[5px] text-[0.8rem]">
-              User name &#40;Optional&#41;
+              User name
             </label>
             <input
               {...register("userName")}
               className="outline outline-1 rounded-[5px] w-[30rem] h-[2rem] text-[0.7rem] px-[0.2rem]"
               type="text"
-              placeholder="Type your name)"
+              placeholder="Type your name"
+              required
+              value={userName}
+              onChange={(e) => setUserName(e.target.value)}
             />
           </div>
         </div>
@@ -90,7 +95,6 @@ const SignUpForm = () => {
             {errors.email.message}
           </p>
         )}
-        {/* End of Email and phone Number */}
         <div className="flex flex-col gap-[2em] ">
           <div className="relative flex items-center">
             <input
@@ -154,13 +158,6 @@ const SignUpForm = () => {
               {errors.password.message}
             </p>
           )}
-        </div>
-        <div className="flex items-center gap-[0.5rem] self-start ">
-          <input type="checkbox" />
-          <label className="text-[0.8rem]">
-            I agree to all the <b className="text-red-500">Term</b> and
-            <b className="text-red-500"> Privacy Policies</b>
-          </label>
         </div>
         <button
           type="submit"
