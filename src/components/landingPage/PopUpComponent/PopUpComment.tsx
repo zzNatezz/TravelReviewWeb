@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import timeFormat from "@/util/timeFormat";
 import icon from "@/asset/icon/icon";
@@ -7,9 +7,13 @@ import image from "@/asset/picture/image";
 import { IpopUp } from "@/util/utils";
 import { modalClose } from "@/components/reduxFeature/modal";
 import { useDispatch } from "react-redux";
+import axios from "axios";
 
 const PopUpComment = ({ item, index }: IpopUp) => {
   const [comment, setComment] = useState<string>();
+  const [commentList, setCommentList] = useState<any[]>([]);
+  console.log(commentList);
+
   const dispatch = useDispatch();
 
   const handleCloseModal = () => {
@@ -21,6 +25,20 @@ const PopUpComment = ({ item, index }: IpopUp) => {
     e.preventDefault();
     console.log(comment);
   };
+  useEffect(() => {
+    const fetch = async (postId: any) => {
+      try {
+        const res: any = await axios.get(
+          `https://be-travel-review.vercel.app/v1/comment/${postId}`
+        );
+
+        setCommentList(res?.data?.comment);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    fetch(item._id);
+  }, []);
 
   return (
     <div
@@ -52,15 +70,17 @@ const PopUpComment = ({ item, index }: IpopUp) => {
               height="90"
               unoptimized
               src={
-                item?.manWhoCreate?.avatar
-                  ? item?.manWhoCreate?.avatar
-                  : icon.defaultAvatar
+                item?.manWhoCreate?.avatar?.url === ""
+                  ? icon.defaultAvatar
+                  : item?.manWhoCreate?.avatar?.url
               }
               alt="avatar"
             />
             {/* time format */}
             <div>
-              <h1>{item?.manWhoCreate?.userName}</h1>
+              <h1 className="font-bold text-xl">
+                {item?.manWhoCreate?.userName}
+              </h1>
               <div>{timeFormat(item?.createAt)}</div>
             </div>
           </div>
@@ -97,8 +117,37 @@ const PopUpComment = ({ item, index }: IpopUp) => {
             </button>
           </div>
         </form>
-        <hr className="my-[2rem]" />
-        <div>ALL comments will be rendered here</div>
+        <div className="border-t-2 my-[2rem] pt-[2rem] w-[30rem] ">
+          {commentList?.map((item: any, index: number) => (
+            <div
+              className={
+                index % 2 === 0
+                  ? "bg-white p-[1rem] flex items-center justify-between gap-x-[0.5rem]"
+                  : "bg-gray-200 rounded-xl p-[1rem] flex items-center justify-between gap-x-[1rem] "
+              }
+            >
+              <div className="flex items-center gap-x-[1rem]">
+                <div className="flex flex-col items-center gap-x-[0.5rem] ">
+                  <div className="w-max">{item?.userId?.userName}</div>
+                  <Image
+                    style={{ width: "50px", height: "50px" }}
+                    width={200}
+                    height={200}
+                    unoptimized
+                    src={
+                      item?.userId.avatar.url === ""
+                        ? icon.defaultAvatar
+                        : item?.userId.avatar.ur
+                    }
+                    alt=""
+                  />
+                </div>
+                <div className="">{item?.comment}</div>
+              </div>
+              <Image width={30} height={30} src={icon.settingIcon} alt="" />
+            </div>
+          ))}
+        </div>
       </div>
     </div>
   );

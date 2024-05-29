@@ -16,6 +16,7 @@ import hearActice from '@/asset/icon/hear_active.svg'
 import heatUnactive from '@/asset/icon/heart_unactive.svg'
 import shareIcon from '@/asset/icon/share.svg'
 import closeIcon from '@/asset/icon/closeIcon.svg'
+import settingIcon from '@/asset/icon/settingIcon.svg'
 
 const icon : {
     icon_airplane :  string,
@@ -35,7 +36,8 @@ const icon : {
     hearActice: string,
     heatUnactive: string,
     chatIcon: string,
-    closeIcon : string
+    closeIcon : string,
+    settingIcon: string
 } = {
     icon_airplane,
     Logo,
@@ -54,7 +56,8 @@ const icon : {
     hearActice,
     heatUnactive,
     chatIcon,
-    closeIcon
+    closeIcon,
+    settingIcon
 }
 
 export default icon

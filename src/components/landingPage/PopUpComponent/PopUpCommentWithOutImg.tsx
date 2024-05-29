@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import timeFormat from "@/util/timeFormat";
 import icon from "@/asset/icon/icon";
@@ -7,9 +7,12 @@ import image from "@/asset/picture/image";
 import { IpopUp } from "@/util/utils";
 import { modalClose } from "@/components/reduxFeature/modal";
 import { useDispatch } from "react-redux";
+import axios from "axios";
 
 const PopUpCommentWithOutImg = ({ item, index }: IpopUp) => {
   const [comment, setComment] = useState<string>();
+  const [commentList, setCommentList] = useState<any[]>([]);
+
   const dispatch = useDispatch();
 
   const handleCloseModal = () => {
@@ -22,8 +25,26 @@ const PopUpCommentWithOutImg = ({ item, index }: IpopUp) => {
     console.log(comment);
   };
 
+  useEffect(() => {
+    const fetch = async (postId: any) => {
+      try {
+        const res: any = await axios.get(
+          `https://be-travel-review.vercel.app/v1/comment/${postId}`
+        );
+
+        setCommentList(res?.data?.comment);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    fetch(item._id);
+  }, []);
+
   return (
-    <div key={index} className="flex flex-col items-center content ">
+    <div
+      key={index}
+      className="flex flex-col items-center content overflow-auto gap-y-[2rem] "
+    >
       <div className="flex items-center justify-between w-[52.65rem] pt-[1rem]">
         <div className="flex gap-x-[1rem]">
           <Image
@@ -37,15 +58,17 @@ const PopUpCommentWithOutImg = ({ item, index }: IpopUp) => {
             height="90"
             unoptimized
             src={
-              item?.manWhoCreate?.avatar
-                ? item?.manWhoCreate?.avatar
-                : icon.defaultAvatar
+              item?.manWhoCreate?.avatar?.url === ""
+                ? icon.defaultAvatar
+                : item?.manWhoCreate?.avatar?.url
             }
             alt="avatar"
           />
           {/* time format */}
           <div>
-            <h1>{item?.manWhoCreate?.userName}</h1>
+            <h1 className="font-bold text-xl">
+              {item?.manWhoCreate?.userName}
+            </h1>
             <div>{timeFormat(item?.createAt)}</div>
           </div>
         </div>
@@ -57,9 +80,7 @@ const PopUpCommentWithOutImg = ({ item, index }: IpopUp) => {
           alt="click me to close"
         />
       </div>
-      <div className="py-[2rem] content-start place-self-start pl-[5rem] ">
-        {item?.content}
-      </div>
+      <div className="p-2rem w-[52.65rem] overflow-auto">{item?.content}</div>
       <form onSubmit={handleComment}>
         <div className="flex flex-row items-center gap-[2rem] w-40[rem]">
           <Image
@@ -83,8 +104,12 @@ const PopUpCommentWithOutImg = ({ item, index }: IpopUp) => {
           </button>
         </div>
       </form>
-      <div className="border-t-2 my-[2rem] pt-[2rem] w-[52.65rem] ">
-        ALL comments will be rendered here
+      <div className="border-t-2 my-[2rem] pt-[2rem] w-[40rem] ">
+        {commentList?.map((item: any, index: number) => (
+          <div className={index % 2 === 0 ? "bg-white" : "bg-gray-200"}>
+            {item?.comment}
+          </div>
+        ))}
       </div>
     </div>
   );

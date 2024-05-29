@@ -1,6 +1,6 @@
 "use client";
 import React from "react";
-import StatusBar from "./subComponent/StatusBar";
+import StatusBar from "./StatusBar";
 
 const DoUThink = () => {
   return (

@@ -5,6 +5,7 @@ import { registerFail, registerStart, registerSuccess } from "./registerRedux";
 import { getUserListFail, getUserListStart, getUserListSuccess } from "./getAlluser";
 import { getPostFail, getPostStart, getPostSuccess } from "./getPostId";
 
+
 export const ApiLogin = async (user:any, dispatch : any, router :any) => {
     dispatch(loginStart());
     try {
@@ -64,7 +65,6 @@ export const ApiGetpostWithID = async(postId : string , dispatch : any) =>{
     dispatch(getPostStart())
     try {
         const res = await axios.get(`https://be-travel-review.vercel.app/v1/content/${postId}`)
-        console.log(res.data);
         dispatch(getPostSuccess(res.data))
     } catch (error) {
         dispatch(getPostFail())

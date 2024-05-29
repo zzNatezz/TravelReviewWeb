@@ -24,3 +24,9 @@ export   interface IuserLogin {
     item : any,
     index ?: number
   }
+
+  export interface ICommentListInAPI{
+    _id : any,
+    comment : any,
+    userId : any
+  }

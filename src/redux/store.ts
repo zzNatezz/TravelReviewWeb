@@ -6,6 +6,7 @@ import modalReducer from "@/components/reduxFeature/modal"
 import getPostReducer from '@/components/reduxFeature/getPostId'
 
 
+
 export const makeStore = () => {
   return configureStore({
     reducer : {
@@ -13,7 +14,7 @@ export const makeStore = () => {
       register  : registerReducer,
       userList : userListReducer,
       modalState : modalReducer,
-      getPost : getPostReducer
+      getPost : getPostReducer,
     },
   })
 }

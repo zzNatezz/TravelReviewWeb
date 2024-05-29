@@ -5,10 +5,10 @@ import toast from "react-hot-toast";
 import Image from "next/image";
 import icon from "@/asset/icon/icon";
 import timeFormat from "@/util/timeFormat";
-import PopUpCommentWithOutImg from "./subComponent/PopUpCommentWithOutImg";
+import PopUpCommentWithOutImg from "./PopUpComponent/PopUpCommentWithOutImg";
 import { useDispatch, useSelector } from "react-redux";
 import { modalClose, modalOpen } from "../reduxFeature/modal";
-import PopUpComment from "./subComponent/PopUpComment";
+import PopUpComment from "./PopUpComponent/PopUpComment";
 
 const Allpost = () => {
   const [allPost, setAllPost] = useState<any[]>([]);
@@ -75,14 +75,16 @@ const Allpost = () => {
                 height="90"
                 unoptimized
                 src={
-                  item?.manWhoCreate?.avatar
-                    ? item?.manWhoCreate?.avatar
-                    : icon.defaultAvatar
+                  item?.manWhoCreate?.avatar?.url === ""
+                    ? icon.defaultAvatar
+                    : item?.manWhoCreate?.avatar?.url
                 }
                 alt="avatar"
               />
               <div>
-                <h1>{item?.manWhoCreate?.userName}</h1>
+                <h1 className="font-bold text-xl">
+                  {item?.manWhoCreate?.userName}
+                </h1>
                 <div>{timeFormat(item?.createAt)}</div>
               </div>
             </div>
@@ -110,7 +112,6 @@ const Allpost = () => {
                 <Image width={24} height={24} src={icon.heatUnactive} alt="" />
                 <div>Reaction</div>
               </div>
-              {/* {forcus on this} */}
               <button
                 type="button"
                 onClick={() => handleOpenModal(index)}
@@ -119,7 +120,6 @@ const Allpost = () => {
                 <Image width={24} height={24} src={icon.chatIcon} alt="" />
                 Comment{" "}
               </button>
-              {/* {forcus on this} */}
               <div className="flex items-center gap-x-[0.5rem]">
                 <Image width={24} height={24} src={icon.shareIcon} alt="" />
                 <div>Share</div>
