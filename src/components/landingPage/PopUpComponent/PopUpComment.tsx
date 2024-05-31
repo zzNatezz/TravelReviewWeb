@@ -4,15 +4,16 @@ import Image from "next/image";
 import timeFormat from "@/util/timeFormat";
 import icon from "@/asset/icon/icon";
 import image from "@/asset/picture/image";
-import { IpopUp } from "@/util/utils";
 import { modalClose } from "@/components/reduxFeature/modal";
 import { useDispatch } from "react-redux";
 import axios from "axios";
+import { IpopUp } from "@/util/allInterface";
+import Reloading from "@/components/reloading/Reloading";
 
 const PopUpComment = ({ item, index }: IpopUp) => {
   const [comment, setComment] = useState<string>();
   const [commentList, setCommentList] = useState<any[]>([]);
-  console.log(commentList);
+  const [loading, setLoading] = useState<boolean>(false);
 
   const dispatch = useDispatch();
 
@@ -28,13 +29,15 @@ const PopUpComment = ({ item, index }: IpopUp) => {
   useEffect(() => {
     const fetch = async (postId: any) => {
       try {
+        setLoading(true);
         const res: any = await axios.get(
           `https://be-travel-review.vercel.app/v1/comment/${postId}`
         );
-
         setCommentList(res?.data?.comment);
+        setLoading(false);
       } catch (error) {
         console.log(error);
+        setLoading(false);
       }
     };
     fetch(item._id);
@@ -43,7 +46,7 @@ const PopUpComment = ({ item, index }: IpopUp) => {
   return (
     <div
       key={index}
-      className="flex gap-x-[3rem] items-start justify-around p-[1rem]"
+      className="flex gap-x-[3rem] items-center justify-around p-[1rem]"
     >
       <div className="bg-gray-200 p-[1rem] rounded-[2rem] ">
         <Image
@@ -97,7 +100,7 @@ const PopUpComment = ({ item, index }: IpopUp) => {
         <form onSubmit={handleComment}>
           <div className="flex gap-x-[1rem] items-center justify-between ">
             <Image
-              className="rounded-[50%] cursor-pointer;"
+              className="rounded-[50%]"
               style={{ width: "5rem", height: "5rem" }}
               src={image.avatar}
               alt="loading..."
@@ -117,37 +120,41 @@ const PopUpComment = ({ item, index }: IpopUp) => {
             </button>
           </div>
         </form>
-        <div className="border-t-2 my-[2rem] pt-[2rem] w-[30rem] ">
-          {commentList?.map((item: any, index: number) => (
-            <div
-              key={index}
-              className={
-                index % 2 === 0
-                  ? "bg-white p-[1rem] flex items-center justify-between gap-x-[0.5rem]"
-                  : "bg-gray-200 rounded-xl p-[1rem] flex items-center justify-between gap-x-[1rem] "
-              }
-            >
-              <div className="flex items-center gap-x-[1rem]">
-                <div className="flex flex-col items-center gap-x-[0.5rem] ">
-                  <div className="w-max">{item?.userId?.userName}</div>
-                  <Image
-                    style={{ width: "50px", height: "50px" }}
-                    width={200}
-                    height={200}
-                    unoptimized
-                    src={
-                      item?.userId.avatar.url === ""
-                        ? icon.defaultAvatar
-                        : item?.userId.avatar.ur
-                    }
-                    alt=""
-                  />
+        <div className="border-t-2 my-[2rem] pt-[2rem] w-[30rem] flex flex-col">
+          {loading ? (
+            <Reloading size={45} className="self-center" />
+          ) : (
+            commentList?.map((item: any, index: number) => (
+              <div
+                key={index}
+                className={
+                  index % 2 === 0
+                    ? "bg-white p-[1rem] flex items-center justify-between gap-x-[0.5rem]"
+                    : "bg-gray-200 rounded-xl p-[1rem] flex items-center justify-between gap-x-[1rem] "
+                }
+              >
+                <div className="flex items-center gap-x-[1rem]">
+                  <div className="flex flex-col items-center gap-x-[0.5rem] ">
+                    <div className="w-max">{item?.userId?.userName}</div>
+                    <Image
+                      style={{ width: "50px", height: "50px" }}
+                      width={200}
+                      height={200}
+                      unoptimized
+                      src={
+                        item?.userId.avatar.url === ""
+                          ? icon.defaultAvatar
+                          : item?.userId.avatar.ur
+                      }
+                      alt=""
+                    />
+                  </div>
+                  <div className="">{item?.comment}</div>
                 </div>
-                <div className="">{item?.comment}</div>
+                <Image width={30} height={30} src={icon.settingIcon} alt="" />
               </div>
-              <Image width={30} height={30} src={icon.settingIcon} alt="" />
-            </div>
-          ))}
+            ))
+          )}
         </div>
       </div>
     </div>

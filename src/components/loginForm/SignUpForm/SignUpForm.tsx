@@ -7,6 +7,7 @@ import { ApiRegister } from "@/components/reduxFeature/apiCall";
 import toast from "react-hot-toast";
 import { useDispatch } from "react-redux";
 import { useRouter } from "next/navigation";
+import Reloading from "@/components/reloading/Reloading";
 
 interface SignUpValue {
   userName: string;
@@ -21,12 +22,14 @@ const SignUpForm = () => {
   const [password, setPassword] = useState<string>("");
   const [passwordConfirm, setPasswordConfirm] = useState<string>("");
   const [userName, setUserName] = useState<string>("");
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const dispatch = useDispatch();
   const router = useRouter();
 
   const handleRegister = (form: any, e: any) => {
     e.preventDefault();
+    setIsLoading(true);
     if (password === passwordConfirm) {
       const newUser = {
         userName,
@@ -35,7 +38,8 @@ const SignUpForm = () => {
       };
       ApiRegister(newUser, dispatch, router);
     } else {
-      return toast.error("Password do not match");
+      toast.error("Password do not match");
+      setIsLoading(false);
     }
   };
 
@@ -159,12 +163,16 @@ const SignUpForm = () => {
             </p>
           )}
         </div>
-        <button
-          type="submit"
-          className="outline-cyan-300 outline-1 rounded-[5px] w-[30rem] h-[2rem] text-[0.7rem] px-[0.2rem] bg-cyan-300 text-[1rem] text-white font-bold"
-        >
-          Create Account
-        </button>
+        {isLoading ? (
+          <Reloading size={30} className="self-center" />
+        ) : (
+          <button
+            type="submit"
+            className="outline-cyan-300 outline-1 rounded-[5px] w-[30rem] h-[2rem] text-[0.7rem] px-[0.2rem] bg-cyan-300 text-[1rem] text-white font-bold"
+          >
+            Create Account
+          </button>
+        )}
       </form>
       <div className="text-center border-b border-gray-600 w-[19rem] leading-[0.1em] mx-0 mt-[10px] mb-[20px]">
         <span className="bg-white text-[0.7rem] px-[0.2rem]">

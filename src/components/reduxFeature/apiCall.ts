@@ -15,6 +15,8 @@ export const ApiLogin = async (user:any, dispatch : any, router :any) => {
         router.push('/')
     } catch (error) {
         toast.error('Please double check email and password')
+        console.log(error);
+        
         dispatch(loginFail())
     }
 }

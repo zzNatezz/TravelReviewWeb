@@ -30,3 +30,8 @@ export   interface IuserLogin {
     comment : any,
     userId : any
   }
+
+  export interface IReloading{
+    size : number,
+    className : string
+  }

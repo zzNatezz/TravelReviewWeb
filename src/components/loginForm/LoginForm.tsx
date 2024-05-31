@@ -4,9 +4,10 @@ import Link from "next/link";
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import Image from "next/image";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { ApiLogin } from "../reduxFeature/apiCall";
 import { useRouter } from "next/navigation";
+import Reloading from "../reloading/Reloading";
 
 interface IFormLogin {
   email: string;
@@ -15,12 +16,13 @@ interface IFormLogin {
 
 const LoginForm = () => {
   const [showPass, setShowPass] = useState<boolean>(false);
-  const [loading, setLoading] = useState<boolean>(false);
   const [emailUser, setEmailUser] = useState<string>("");
   const [password, setPassword] = useState<string>("");
+
+  const isFetching = useSelector((state: any) => state.authState.isFetching);
+
   const dispatch = useDispatch();
   const router = useRouter();
-  //"https://be-travel-review.vercel.app/v1/auth/login",
 
   const {
     register,
@@ -30,10 +32,8 @@ const LoginForm = () => {
 
   const onSubmit = async (form: any, e: any) => {
     e.preventDefault();
-    setLoading(true);
     const newUser = { email: emailUser, password: password };
     ApiLogin(newUser, dispatch, router);
-    setLoading(false);
   };
 
   return (
@@ -119,12 +119,17 @@ const LoginForm = () => {
             Forgot Password
           </Link>
         </div>
-        <button
-          type="submit"
-          className="outline-cyan-300 outline-1 rounded-[5px] w-[19rem] h-[2rem] text-[0.7rem] px-[0.2rem] bg-cyan-300 text-white font-bold	text-[1rem]"
-        >
-          Log In
-        </button>
+        {isFetching === true ? (
+          <Reloading size={30} />
+        ) : (
+          <button
+            type="submit"
+            className="outline-cyan-300 outline-1 rounded-[5px] w-[19rem] h-[2rem] text-[0.7rem] px-[0.2rem] bg-cyan-300 text-white font-bold	text-[1rem]"
+          >
+            Log In
+          </button>
+        )}
+
         <div className="font-[roboto] text-[0.7rem]">
           Don&apos;t have an account?
           <Link
