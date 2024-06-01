@@ -3,13 +3,13 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 interface auth {
     currentUser : string,
     isFetching : boolean,
-    error : boolean
+    error : boolean,
 }
 
 const initialState : auth = {
     currentUser : "",
     isFetching  : false,
-    error : false  
+    error : false ,
 }
 
 export const authSlice = createSlice({

@@ -11,12 +11,12 @@ export const ApiLogin = async (user:any, dispatch : any, router :any) => {
     try {
         const res = await axios.post("https://be-travel-review.vercel.app/v1/auth/login", user,{withCredentials : true})
         dispatch(loginSuccess(res.data));
-        toast.success('Login Successfully')
-        router.push('/')
+        localStorage.setItem('AC', JSON.stringify(res.data) || "");
+        toast.success('Login Successfully');
+        router.push('/');
     } catch (error) {
         toast.error('Please double check email and password')
-        console.log(error);
-        
+        console.log(error);       
         dispatch(loginFail())
     }
 }

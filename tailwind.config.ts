@@ -16,6 +16,9 @@ const config: Config = {
       fontFamily:{
         Montserrat : ['Montserrat', 'serif'],
         Roboto : ['Roboto', 'serif']
+      },
+      animation : {
+        'ping-low' : 'ping 3s cubic-bezier(1, 0, 0.2, 1) infinite'
       }
     },
   },

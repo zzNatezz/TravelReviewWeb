@@ -67,7 +67,7 @@ const Allpost = () => {
             className={
               index % 2 === 0
                 ? "p-[1rem] bg-white rounded-[20px] shadow-[0px_20px_30px_-1px_rgba(0,0,0)]"
-                : "p-[1rem] bg-gray-100	 rounded-[20px] shadow-[0px_20px_30px_-1px_rgba(0,0,0)]"
+                : "p-[1rem] bg-gray-100  rounded-[20px] shadow-[0px_20px_30px_-1px_rgba(0,0,0)]"
             }
             key={index}
           >
