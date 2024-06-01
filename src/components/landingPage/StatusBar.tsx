@@ -1,8 +1,8 @@
 "use client";
-import { IReview } from "@/util/utils";
 import React, { useState } from "react";
 import Image from "next/image";
 import image from "@/asset/picture/image";
+import { IReview } from "@/util/allInterface";
 
 const StatusBar = () => {
   const [thinking, setThinking] = useState<string>("");

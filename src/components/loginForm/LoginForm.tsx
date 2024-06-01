@@ -120,7 +120,7 @@ const LoginForm = () => {
           </Link>
         </div>
         {isFetching === true ? (
-          <Reloading size={30} />
+          <Reloading size={30} className="" />
         ) : (
           <button
             type="submit"

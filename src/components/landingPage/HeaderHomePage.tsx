@@ -5,7 +5,7 @@ import icon from "@/asset/icon/icon";
 import Link from "next/link";
 import { useSelector } from "react-redux";
 import { jwtDecode } from "jwt-decode";
-import { IuserLogin } from "@/util/utils";
+import { IuserLogin } from "@/util/allInterface";
 
 const HeaderHomePage = () => {
   const user = useSelector((state: any) => state.authState.currentUser);

@@ -4,10 +4,10 @@ import Image from "next/image";
 import timeFormat from "@/util/timeFormat";
 import icon from "@/asset/icon/icon";
 import image from "@/asset/picture/image";
-import { IpopUp } from "@/util/utils";
 import { modalClose } from "@/components/reduxFeature/modal";
 import { useDispatch } from "react-redux";
 import axios from "axios";
+import { IpopUp } from "@/util/allInterface";
 
 const PopUpCommentWithOutImg = ({ item, index }: IpopUp) => {
   const [comment, setComment] = useState<string>();
