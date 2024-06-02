@@ -2,8 +2,8 @@ import { loginFail, loginSuccess } from '@/components/reduxFeature/authState';
 import { jwtDecode } from 'jwt-decode';
 
 const checkAuth = (dispatch : any) => {
-    const getAcFromLocal = global?.window.localStorage.getItem("AC")
-    ? JSON.parse(localStorage.getItem("AC") || "")
+    const getAcFromLocal = global?.window?.localStorage?.getItem("AC")
+    ? JSON?.parse(localStorage?.getItem("AC") || "")
     : null;
     try {
         const decode = jwtDecode(getAcFromLocal);

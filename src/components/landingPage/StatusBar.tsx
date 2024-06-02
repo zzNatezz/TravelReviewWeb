@@ -13,8 +13,8 @@ const StatusBar = () => {
   const [avatar, setAvatar] = useState<IReview>();
   const [picture, setPicture] = useState<any>();
 
-  const user = global?.window.localStorage.getItem("AC")
-    ? JSON.parse(localStorage.getItem("AC") || "")
+  const user = global?.window?.localStorage?.getItem("AC")
+    ? JSON?.parse(localStorage?.getItem("AC") || "")
     : null;
   const dispatch = useDispatch();
 
