@@ -5,6 +5,7 @@ import { registerFail, registerStart, registerSuccess } from "./registerRedux";
 import { getUserListFail, getUserListStart, getUserListSuccess } from "./getAlluser";
 import { getPostFail, getPostStart, getPostSuccess } from "./getPostId";
 import { postFail, postStart, postSuccess } from "./postState";
+import { removedPostFail, removedPostStart, removedPostSuccess } from "./removePost";
 
 
 export const ApiLogin = async (user:any, dispatch : any, router :any) => {
@@ -87,5 +88,18 @@ export const ApiPost = async(userId : string, content : any ,dispatch : any) => 
         dispatch(postFail());
         console.log(error);
         
+    }
+}
+
+export const ApiRemovePost = async(userId : string, postId : string, dispatch : any) => {
+    dispatch(removedPostStart());
+    try {
+        const res = await axios.delete(`https://be-travel-review.vercel.app/v1/content/${userId}/${postId}`);        
+        dispatch(removedPostSuccess());
+        toast.success(res?.data)
+    } catch (error : any) {
+        const mes_err = error?.response?.data;
+        toast.error(mes_err);
+        dispatch(removedPostFail());
     }
 }

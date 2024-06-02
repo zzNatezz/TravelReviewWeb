@@ -23,6 +23,8 @@ const Allpost = () => {
 
   const isLoading = useSelector((state: any) => state.isLoading.isLoading);
 
+  const isIndex = useSelector((state: any) => state.isEdit.index);
+
   const handleOpenModal = (index: number) => {
     document.body.style.overflow = "hidden";
     dispatch(modalOpen(index));
@@ -97,7 +99,7 @@ const Allpost = () => {
                     <div>{timeFormat(item?.createAt)}</div>
                   </div>
                 </div>
-                <TippyEdit index={index} />
+                <TippyEdit item={item} index={index} />
               </div>
               <div>
                 <div className="py-[1.5rem]">{item?.content}</div>

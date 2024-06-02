@@ -6,6 +6,9 @@ import modalReducer from "@/components/reduxFeature/modal"
 import getPostReducer from '@/components/reduxFeature/getPostId'
 import loadingReducer from '@/components/reduxFeature/reloadingState'
 import postReducer from '@/components/reduxFeature/postState'
+import removePostReducer from '@/components/reduxFeature/removePost'
+import editReducer from '@/components/reduxFeature/handleEdit'
+
 
 
 
@@ -18,7 +21,9 @@ export const makeStore = () => {
       modalState : modalReducer,
       getPost : getPostReducer,
       isLoading : loadingReducer,
-      postStt : postReducer
+      postStt : postReducer,
+      removePost : removePostReducer,
+      isEdit : editReducer
     },
   })
 }
