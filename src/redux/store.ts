@@ -5,6 +5,7 @@ import userListReducer from "@/components/reduxFeature/getAlluser"
 import modalReducer from "@/components/reduxFeature/modal"
 import getPostReducer from '@/components/reduxFeature/getPostId'
 import loadingReducer from '@/components/reduxFeature/reloadingState'
+import postReducer from '@/components/reduxFeature/postState'
 
 
 
@@ -16,7 +17,8 @@ export const makeStore = () => {
       userList : userListReducer,
       modalState : modalReducer,
       getPost : getPostReducer,
-      isLoading : loadingReducer
+      isLoading : loadingReducer,
+      postStt : postReducer
     },
   })
 }

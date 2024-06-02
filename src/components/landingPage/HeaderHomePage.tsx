@@ -12,8 +12,8 @@ const HeaderHomePage = () => {
 
   return (
     <div className="w-[1380px] flex justify-between pt-[3rem] sticky top-[0] px-[1.5rem]">
-      <div className="w-[30vh] flex items-center gap-[20px]">
-        <div className="flex item-center gap-[5px] px-[1rem] rounded-xl w-[10vh] bg-gray-200 ">
+      <div className="w-[30vh] flex items-center flex-col gap-[20px]">
+        <div className="flex item-center gap-[5px] px-[1rem] rounded-xl w-[max] bg-gray-200 ">
           <Image
             className="filter invert-[1]"
             width="24"
@@ -23,7 +23,7 @@ const HeaderHomePage = () => {
           />
           <div className="text-white">Find Flight</div>
         </div>
-        <div className="flex item-center gap-[5px] px-[1rem] rounded-xl w-[10vh] bg-gray-200 ">
+        <div className="flex item-center gap-[5px] px-[1rem] rounded-xl w-[max] bg-gray-200 ">
           <Image
             width="24"
             height="24"
@@ -36,7 +36,7 @@ const HeaderHomePage = () => {
       {!user ? (
         <button
           style={{ position: "-webkit-sticky" }}
-          className="sticky top-[0] text-cyan-300 w-[max] p-[1rem] bg-slate-300	 rounded-xl font-bold"
+          className="sticky top-[0] text-cyan-300 w-[max] px-[1rem] bg-slate-300 rounded-xl font-bold"
         >
           <Link className="hover:animate-ping" href="/account/register">
             Sign-Up
@@ -47,7 +47,7 @@ const HeaderHomePage = () => {
           style={{ position: "-webkit-sticky" }}
           className="sticky top-[0] flex gap-[20px]"
         >
-          <button className="font-Roboto text-white px-[1rem] py-[0.5rem] bg-slate-300	 rounded-xl ">
+          <button className="font-Roboto text-white px-[1rem] py-[0.5rem] bg-slate-300 rounded-xl ">
             <Link href="">
               Hi, {""}
               {jwtDecode<IuserLogin>(user)?.user?.userName}

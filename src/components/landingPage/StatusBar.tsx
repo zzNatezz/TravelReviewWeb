@@ -2,16 +2,35 @@
 import React, { useState } from "react";
 import Image from "next/image";
 import image from "@/asset/picture/image";
-import { IReview } from "@/util/allInterface";
-import icon from "@/asset/icon/icon";
+import { IReview, IuserLogin } from "@/util/allInterface";
+import { useDispatch, useSelector } from "react-redux";
+import { jwtDecode } from "jwt-decode";
+import { ApiPost } from "../reduxFeature/apiCall";
+import { postFail } from "../reduxFeature/postState";
 
 const StatusBar = () => {
   const [thinking, setThinking] = useState<string>("");
   const [avatar, setAvatar] = useState<IReview>();
   const [picture, setPicture] = useState<any>();
 
-  const handleSubmit = (e: any) => {
+  const user = global?.window.localStorage.getItem("AC")
+    ? JSON.parse(localStorage.getItem("AC") || "")
+    : null;
+  const dispatch = useDispatch();
+
+  const handlePost = (e: any) => {
     e.preventDefault();
+    try {
+      const content = { content: thinking, file: picture };
+      const decodeUser = jwtDecode<IuserLogin>(user);
+      if (!decodeUser)
+        throw new Error("Please login or reload page, something went wrong");
+      const userId = decodeUser?.user?._id;
+      ApiPost(userId, content, dispatch);
+      setThinking("");
+    } catch (error) {
+      dispatch(postFail());
+    }
   };
 
   const updateAvatar = (e: any) => {
@@ -60,7 +79,7 @@ const StatusBar = () => {
       </div>
       <form
         className="flex flex-row items-center gap-[2rem]"
-        onSubmit={handleSubmit}
+        onSubmit={handlePost}
       >
         <div>
           <label className="cursor-pointer" htmlFor="imagine">
@@ -88,7 +107,7 @@ const StatusBar = () => {
           <input
             className="h-[3rem] py-[1rem] w-[30rem] rounded-[20px] px-[10px] outline outline-[1px]"
             type="text"
-            placeholder="Do you want to share any things ?"
+            placeholder="Do you want to share anything ?"
             value={thinking}
             onChange={(e) => setThinking(e.target.value)}
           />

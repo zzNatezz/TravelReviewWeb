@@ -4,6 +4,7 @@ import toast from "react-hot-toast";
 import { registerFail, registerStart, registerSuccess } from "./registerRedux";
 import { getUserListFail, getUserListStart, getUserListSuccess } from "./getAlluser";
 import { getPostFail, getPostStart, getPostSuccess } from "./getPostId";
+import { postFail, postStart, postSuccess } from "./postState";
 
 
 export const ApiLogin = async (user:any, dispatch : any, router :any) => {
@@ -70,6 +71,20 @@ export const ApiGetpostWithID = async(postId : string , dispatch : any) =>{
         dispatch(getPostSuccess(res.data))
     } catch (error) {
         dispatch(getPostFail())
+        console.log(error);
+        
+    }
+}
+
+export const ApiPost = async(userId : string, content : any ,dispatch : any) => {
+    dispatch(postStart())
+    try {
+        const res = await axios.post(`https://be-travel-review.vercel.app/v1/content/${userId}`,content);
+        dispatch(postSuccess(res.data));
+        toast.success("Post successfully");
+
+    } catch (error) {
+        dispatch(postFail());
         console.log(error);
         
     }

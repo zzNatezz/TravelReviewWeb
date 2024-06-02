@@ -11,12 +11,15 @@ import { modalClose, modalOpen } from "../reduxFeature/modal";
 import PopUpComment from "./PopUpComponent/PopUpComment";
 import Reloading from "../reloading/Reloading";
 import { loadingEnd, loadingStart } from "../reduxFeature/reloadingState";
+import TippyEdit from "./PopUpComponent/TippyEdit";
 
 const Allpost = () => {
   const [allPost, setAllPost] = useState<any[]>([]);
 
   const isPopUp = useSelector((state: any) => state.modalState.isOpen);
   const dispatch = useDispatch();
+
+  const isPostFetching = useSelector((state: any) => state.postStt.isFetching);
 
   const isLoading = useSelector((state: any) => state.isLoading.isLoading);
 
@@ -49,7 +52,7 @@ const Allpost = () => {
       }
     };
     fetchData();
-  }, []);
+  }, [isPostFetching]);
 
   return (
     <div
@@ -64,38 +67,37 @@ const Allpost = () => {
       ) : (
         allPost.map((item: any, index: number) => (
           <div
-            className={
-              index % 2 === 0
-                ? "p-[1rem] bg-white rounded-[20px] shadow-[0px_20px_30px_-1px_rgba(0,0,0)]"
-                : "p-[1rem] bg-gray-100  rounded-[20px] shadow-[0px_20px_30px_-1px_rgba(0,0,0)]"
-            }
+            className="p-[1rem] bg-white rounded-[20px] shadow-[0px_20px_30px_-1px_rgba(0,0,0)]"
             key={index}
           >
             <div>
-              <div className="flex gap-x-[1rem]">
-                <Image
-                  style={{
-                    borderRadius: "50%",
-                    overflow: "hidden",
-                    width: 90,
-                    height: 90,
-                  }}
-                  width="90"
-                  height="90"
-                  unoptimized
-                  src={
-                    item?.manWhoCreate?.avatar?.url === ""
-                      ? icon.defaultAvatar
-                      : item?.manWhoCreate?.avatar?.url
-                  }
-                  alt="avatar"
-                />
-                <div>
-                  <h1 className="font-bold text-xl">
-                    {item?.manWhoCreate?.userName}
-                  </h1>
-                  <div>{timeFormat(item?.createAt)}</div>
+              <div className="flex items-start justify-between">
+                <div className="flex gap-x-[1rem]">
+                  <Image
+                    style={{
+                      borderRadius: "50%",
+                      overflow: "hidden",
+                      width: 90,
+                      height: 90,
+                    }}
+                    width="90"
+                    height="90"
+                    unoptimized
+                    src={
+                      item?.manWhoCreate?.avatar?.url === ""
+                        ? icon.defaultAvatar
+                        : item?.manWhoCreate?.avatar?.url
+                    }
+                    alt="avatar"
+                  />
+                  <div>
+                    <h1 className="font-bold text-xl">
+                      {item?.manWhoCreate?.userName}
+                    </h1>
+                    <div>{timeFormat(item?.createAt)}</div>
+                  </div>
                 </div>
+                <TippyEdit index={index} />
               </div>
               <div>
                 <div className="py-[1.5rem]">{item?.content}</div>
