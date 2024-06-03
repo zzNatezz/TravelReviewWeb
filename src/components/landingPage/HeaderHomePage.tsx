@@ -11,11 +11,10 @@ const HeaderHomePage = () => {
   const user = useSelector((state: any) => state.authState.currentUser);
 
   return (
-    <div className="w-[1380px] flex justify-between pt-[3rem] sticky top-[0] px-[1.5rem]">
+    <div className="w-[1380px] flex justify-between pt-[3rem] sticky top-[0] px-[1.5rem] items-center">
       <div className="w-[30vh] flex items-center flex-col gap-[20px]">
         <div className="flex item-center gap-[5px] px-[1rem] rounded-xl w-[max] bg-gray-200 ">
           <Image
-            className="filter invert-[1]"
             width="24"
             height="24"
             src={icon.icon_airplane}
@@ -25,6 +24,7 @@ const HeaderHomePage = () => {
         </div>
         <div className="flex item-center gap-[5px] px-[1rem] rounded-xl w-[max] bg-gray-200 ">
           <Image
+            className="filter invert-[1]"
             width="24"
             height="24"
             src={icon.icon_bed}

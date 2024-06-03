@@ -1,4 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
+import { useDispatch } from 'react-redux'
+import { loadingEnd, loadingStart } from './reloadingState'
 
 interface post {
     postStt : {},
@@ -18,11 +20,13 @@ export const postSlice = createSlice({
     reducers : {
         postStart : (state) => {
            state.isFetching = true
+  
         },
         postSuccess : (state,action : PayloadAction<string>) =>{
             state.isFetching = false;
             state.postStt = action.payload;
             state.error = false;
+      
         },
         postFail : (state) =>{
             state.isFetching = false;

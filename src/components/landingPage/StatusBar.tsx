@@ -5,7 +5,7 @@ import image from "@/asset/picture/image";
 import { IReview, IuserLogin } from "@/util/allInterface";
 import { useDispatch, useSelector } from "react-redux";
 import { jwtDecode } from "jwt-decode";
-import { ApiPost } from "../reduxFeature/apiCall";
+import { ApiPost } from "../../util/apiCall";
 import { postFail } from "../reduxFeature/postState";
 
 const StatusBar = () => {

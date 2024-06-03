@@ -1,11 +1,12 @@
 import axios from "axios";
-import { loginFail, loginStart, loginSuccess } from "./authState";
+import { loginFail, loginStart, loginSuccess } from "../components/reduxFeature/authState";
 import toast from "react-hot-toast";
-import { registerFail, registerStart, registerSuccess } from "./registerRedux";
-import { getUserListFail, getUserListStart, getUserListSuccess } from "./getAlluser";
-import { getPostFail, getPostStart, getPostSuccess } from "./getPostId";
-import { postFail, postStart, postSuccess } from "./postState";
-import { removedPostFail, removedPostStart, removedPostSuccess } from "./removePost";
+import { registerFail, registerStart, registerSuccess } from "../components/reduxFeature/registerRedux";
+import { getUserListFail, getUserListStart, getUserListSuccess } from "../components/reduxFeature/getAlluser";
+import { getPostFail, getPostStart, getPostSuccess } from "../components/reduxFeature/getPostId";
+import { postFail, postStart, postSuccess } from "../components/reduxFeature/postState";
+import { removedPostFail, removedPostStart, removedPostSuccess } from "../components/reduxFeature/removePost";
+import { loadingEnd, loadingStart } from "../components/reduxFeature/reloadingState";
 
 
 export const ApiLogin = async (user:any, dispatch : any, router :any) => {
@@ -78,7 +79,7 @@ export const ApiGetpostWithID = async(postId : string , dispatch : any) =>{
 }
 
 export const ApiPost = async(userId : string, content : any ,dispatch : any) => {
-    dispatch(postStart())
+    dispatch(postStart());
     try {
         const res = await axios.post(`https://be-travel-review.vercel.app/v1/content/${userId}`,content);
         dispatch(postSuccess(res.data));

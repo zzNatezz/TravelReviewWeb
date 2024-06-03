@@ -3,10 +3,11 @@ import Tippy from "@tippyjs/react/headless";
 import Image from "next/image";
 import icon from "@/asset/icon/icon";
 import React, { useState } from "react";
-import { ApiRemovePost } from "@/components/reduxFeature/apiCall";
 import { useDispatch, useSelector } from "react-redux";
 import { jwtDecode } from "jwt-decode";
 import { IpopUp, IuserLogin } from "@/util/allInterface";
+import { editOpen } from "@/components/reduxFeature/handleEdit";
+import { ApiRemovePost } from "@/util/apiCall";
 
 const TippyEdit = ({ item, index }: IpopUp) => {
   const [visible, setVisible] = useState<boolean>(false);
@@ -14,7 +15,6 @@ const TippyEdit = ({ item, index }: IpopUp) => {
     ? JSON?.parse(localStorage?.getItem("AC") || "")
     : null;
 
-  const isIndex = useSelector((state: any) => state.isEdit.index);
   const dispatch = useDispatch();
 
   const show = () => setVisible(true);
@@ -29,9 +29,15 @@ const TippyEdit = ({ item, index }: IpopUp) => {
       const userId = decodeUser?.user?._id;
       const postId = item._id;
       ApiRemovePost(userId, postId, dispatch);
+      setVisible(false);
     } catch (error) {
       console.log(error);
     }
+  };
+
+  const handleEditPost = (e: any) => {
+    e.preventDefault();
+    dispatch(editOpen(index));
   };
 
   return (
@@ -46,7 +52,10 @@ const TippyEdit = ({ item, index }: IpopUp) => {
           tabIndex={1}
           {...attrs}
         >
-          <button className="bg-cyan-300 rounded-[1rem] px-[1rem] text-white ">
+          <button
+            onClick={(e) => handleEditPost(e)}
+            className="bg-cyan-300 rounded-[1rem] px-[1rem] text-white "
+          >
             Edit
           </button>
           <button

@@ -3,11 +3,11 @@ import React, { useState } from "react";
 import Image from "next/image";
 import { useForm } from "react-hook-form";
 import icon from "@/asset/icon/icon";
-import { ApiRegister } from "@/components/reduxFeature/apiCall";
 import toast from "react-hot-toast";
 import { useDispatch } from "react-redux";
 import { useRouter } from "next/navigation";
 import Reloading from "@/components/reloading/Reloading";
+import { ApiRegister } from "@/util/apiCall";
 
 interface SignUpValue {
   userName: string;

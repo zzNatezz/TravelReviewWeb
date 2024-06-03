@@ -4,8 +4,8 @@ import React from "react";
 import axios from "axios";
 import { JwtPayload, jwtDecode } from "jwt-decode";
 import { useDispatch, useSelector } from "react-redux";
-import { loginSuccess } from "../reduxFeature/authState";
-import { ApiGetAllUser } from "../reduxFeature/apiCall";
+import { loginSuccess } from "../../components/reduxFeature/authState";
+import { ApiGetAllUser } from "../apiCall";
 
 function CallRefToken() {
   const userList = useSelector((state: any) => state.userList.listUser);
