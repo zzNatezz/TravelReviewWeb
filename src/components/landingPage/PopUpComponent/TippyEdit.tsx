@@ -38,6 +38,7 @@ const TippyEdit = ({ item, index }: IpopUp) => {
   const handleEditPost = (e: any) => {
     e.preventDefault();
     dispatch(editOpen(index));
+    setVisible(false);
   };
 
   return (

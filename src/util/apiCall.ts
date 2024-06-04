@@ -7,6 +7,7 @@ import { getPostFail, getPostStart, getPostSuccess } from "../components/reduxFe
 import { postFail, postStart, postSuccess } from "../components/reduxFeature/postState";
 import { removedPostFail, removedPostStart, removedPostSuccess } from "../components/reduxFeature/removePost";
 import { loadingEnd, loadingStart } from "../components/reduxFeature/reloadingState";
+import { ModifyContentEnd, ModifyContentStart, ModifyContentSuccess } from "@/components/reduxFeature/modifyContent";
 
 
 export const ApiLogin = async (user:any, dispatch : any, router :any) => {
@@ -102,5 +103,19 @@ export const ApiRemovePost = async(userId : string, postId : string, dispatch : 
         const mes_err = error?.response?.data;
         toast.error(mes_err);
         dispatch(removedPostFail());
+    }
+}
+
+export const ApiContentModify = async( userId : string, postId : string, content : any, dispatch : any) => {
+    dispatch(ModifyContentStart());
+    try {
+        const res = await axios.put(`https://be-travel-review.vercel.app/v1/content/string/${userId}/${postId}`,content);
+        toast.success(res?.data)
+        dispatch(ModifyContentSuccess(res.data));
+        dispatch(ModifyContentEnd());
+    } catch (error) {
+        toast.error('Something went wrong')
+        console.log(error);
+        dispatch(ModifyContentEnd());
     }
 }

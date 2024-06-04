@@ -8,6 +8,7 @@ import loadingReducer from '@/components/reduxFeature/reloadingState'
 import postReducer from '@/components/reduxFeature/postState'
 import removePostReducer from '@/components/reduxFeature/removePost'
 import editReducer from '@/components/reduxFeature/handleEdit'
+import modifyContentReducer from '@/components/reduxFeature/modifyContent'
 
 
 
@@ -23,7 +24,8 @@ export const makeStore = () => {
       isLoading : loadingReducer,
       postStt : postReducer,
       removePost : removePostReducer,
-      isEdit : editReducer
+      isEdit : editReducer,
+      modifyString : modifyContentReducer,
     },
   })
 }

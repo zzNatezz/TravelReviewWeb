@@ -108,8 +108,12 @@ const Allpost = () => {
             </div>
             <div>
               {/* Edit content nam o day ne */}
-              <div className="py-[1.5rem]">{item?.content}</div>
-              <EditComponent item={item} />
+              {isIndex === index ? (
+                <EditComponent item={item} />
+              ) : (
+                <div className="py-[1.5rem]">{item?.content}</div>
+              )}
+
               {/* Edit content nam o day ne */}
               <div className="grid place-items-center">
                 {item?.image?.url ? (
