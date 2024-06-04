@@ -13,6 +13,8 @@ import Reloading from "../reloading/Reloading";
 import { loadingEnd, loadingStart } from "../reduxFeature/reloadingState";
 import TippyEdit from "./PopUpComponent/TippyEdit";
 import EditComponent from "./IsEdit/EditComponent";
+import { jwtDecode } from "jwt-decode";
+import { IuserJWTPayLoad } from "@/util/allInterface";
 
 const Allpost = () => {
   const [allPost, setAllPost] = useState<any[]>([]);
@@ -28,7 +30,26 @@ const Allpost = () => {
     (state: any) => state.removePost.isFetching
   );
 
-  const isIndex = useSelector((state: any) => state.isEdit.index);
+  const isFetchingEdit = useSelector(
+    (state: any) => state.modifyString.isFetching
+  );
+
+  const isIndex = useSelector((state: any) => state.isIndex.index);
+
+  const acTokenInRedux = useSelector(
+    (state: any) => state.authState.currentUser
+  );
+
+  const sssss = jwtDecode<IuserJWTPayLoad>(acTokenInRedux);
+
+  console.log("sssss ==>", sssss);
+
+  const user = global?.window?.localStorage?.getItem("AC")
+    ? JSON?.parse(localStorage?.getItem("AC") || "")
+    : null;
+
+  const decodeUser = jwtDecode<IuserJWTPayLoad>(user);
+  const userId = decodeUser?.user?._id;
 
   const handleOpenModal = (index: number) => {
     document.body.style.overflow = "hidden";
@@ -59,7 +80,7 @@ const Allpost = () => {
       }
     };
     fetchData();
-  }, [isFetchingPost, FetchingRemovedPost]);
+  }, [isFetchingPost, FetchingRemovedPost, isFetchingEdit]);
 
   return (
     <div
@@ -69,9 +90,10 @@ const Allpost = () => {
           : "mt-[20px] rounded-[2rem] bg-white shadow-[0px_20px_30px_-1px_rgba(0,0,0,1)] w-[56.25rem] text-black p-[2rem] flex flex-col gap-y-[5rem] h-max"
       }
     >
-      {(isLoading || isFetchingPost || FetchingRemovedPost) && (
-        <Reloading size={50} className="self-center" />
-      )}
+      {(isLoading ||
+        isFetchingPost ||
+        FetchingRemovedPost ||
+        isFetchingEdit) && <Reloading size={50} className="self-center" />}
       {allPost.map((item: any, index: number) => (
         <div
           className="p-[1rem] bg-white rounded-[20px] shadow-[0px_20px_30px_-1px_rgba(0,0,0)]"
@@ -104,7 +126,9 @@ const Allpost = () => {
                   <div>{timeFormat(item?.createAt)}</div>
                 </div>
               </div>
-              <TippyEdit item={item} index={index} />
+              {item?.manWhoCreate?._id === userId ? (
+                <TippyEdit item={item} index={index} />
+              ) : null}
             </div>
             <div>
               {/* Edit content nam o day ne */}

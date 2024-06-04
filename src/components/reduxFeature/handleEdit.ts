@@ -1,25 +1,25 @@
 import { createSlice } from '@reduxjs/toolkit'
 
-interface IEdit {
+interface Iindex {
     index : undefined | number,
 }
 
-const initialState : IEdit = {
+const initialState : Iindex = {
     index : undefined,
 }
 
-export const editSlice  = createSlice({
-    name : "edit",
+export const indexSlice  = createSlice({
+    name : "index",
     initialState,
     reducers : {
-        editOpen : (state, action) =>{
+        setIndex : (state, action) =>{
             state.index = action.payload},
-        editClose  : (state) =>{
+        unSetIndex  : (state) =>{
             state.index = undefined;
         }
     }
 }) 
 
-export const {editOpen, editClose} = editSlice.actions;
+export const {setIndex, unSetIndex} = indexSlice.actions;
 
-export default editSlice.reducer
+export default indexSlice.reducer

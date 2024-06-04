@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import { IpopUp, IuserLogin } from "@/util/allInterface";
 import toast from "react-hot-toast";
 import { useDispatch } from "react-redux";
-import { editClose } from "@/components/reduxFeature/handleEdit";
+import { setIndex, unSetIndex } from "@/components/reduxFeature/handleEdit";
 import { jwtDecode } from "jwt-decode";
 import { ApiContentModify } from "@/util/apiCall";
 import { ModifyContentEnd } from "@/components/reduxFeature/modifyContent";
@@ -24,9 +24,9 @@ const EditComponent = ({ item, index }: IpopUp) => {
       if (!decodeUser)
         throw new Error("Please login or reload page, something went wrong");
       const userId = decodeUser?.user?._id;
-      const postId = item._id;
+      const postId = item?._id;
       ApiContentModify(userId, postId, content, dispatch);
-      dispatch(editClose());
+      dispatch(unSetIndex());
     } catch (error) {
       console.log(error);
       dispatch(ModifyContentEnd());
@@ -34,7 +34,7 @@ const EditComponent = ({ item, index }: IpopUp) => {
   };
   const handleCancleEdit = (e: any) => {
     e.preventDefault();
-    dispatch(editClose());
+    dispatch(unSetIndex());
   };
 
   return (

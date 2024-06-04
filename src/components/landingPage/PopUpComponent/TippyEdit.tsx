@@ -3,10 +3,10 @@ import Tippy from "@tippyjs/react/headless";
 import Image from "next/image";
 import icon from "@/asset/icon/icon";
 import React, { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { jwtDecode } from "jwt-decode";
 import { IpopUp, IuserLogin } from "@/util/allInterface";
-import { editOpen } from "@/components/reduxFeature/handleEdit";
+import { setIndex } from "@/components/reduxFeature/handleEdit";
 import { ApiRemovePost } from "@/util/apiCall";
 
 const TippyEdit = ({ item, index }: IpopUp) => {
@@ -37,7 +37,7 @@ const TippyEdit = ({ item, index }: IpopUp) => {
 
   const handleEditPost = (e: any) => {
     e.preventDefault();
-    dispatch(editOpen(index));
+    dispatch(setIndex(index));
     setVisible(false);
   };
 

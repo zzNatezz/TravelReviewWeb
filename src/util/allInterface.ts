@@ -1,3 +1,4 @@
+import { JwtPayload } from "jwt-decode";
 import { StaticImageData } from "next/image";
 
 export   interface IuserLogin {
@@ -32,4 +33,8 @@ export   interface IuserLogin {
   export interface IReloading{
     size : number,
     className : string
+  }
+
+  export interface IuserJWTPayLoad extends JwtPayload{
+    user ?: any
   }
