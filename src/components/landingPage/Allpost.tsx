@@ -19,6 +19,8 @@ import { IuserJWTPayLoad } from "@/util/allInterface";
 const Allpost = () => {
   const [allPost, setAllPost] = useState<any[]>([]);
 
+  const [userId, setUserId] = useState<string>("");
+
   const isPopUp = useSelector((state: any) => state.modalState.isOpen);
   const dispatch = useDispatch();
 
@@ -35,13 +37,6 @@ const Allpost = () => {
   );
 
   const isIndex = useSelector((state: any) => state.isIndex.index);
-
-  const user = global?.window?.localStorage?.getItem("AC")
-    ? JSON?.parse(localStorage?.getItem("AC") || "")
-    : null;
-
-  const decodeUser = jwtDecode<IuserJWTPayLoad>(user);
-  const userId = decodeUser?.user?._id;
 
   const handleOpenModal = (index: number) => {
     document.body.style.overflow = "hidden";
@@ -66,6 +61,13 @@ const Allpost = () => {
         );
         setAllPost(data.data);
         dispatch(loadingEnd());
+
+        const user = global?.window?.localStorage?.getItem("AC")
+          ? JSON?.parse(localStorage?.getItem("AC") || "")
+          : null;
+
+        const decodeUser = jwtDecode<IuserJWTPayLoad>(user);
+        setUserId(decodeUser?.user?._id);
       } catch (error) {
         toast.error("Sever is being break out, sorry for this inconvenience");
         dispatch(loadingEnd());
