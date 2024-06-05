@@ -36,14 +36,6 @@ const Allpost = () => {
 
   const isIndex = useSelector((state: any) => state.isIndex.index);
 
-  const acTokenInRedux = useSelector(
-    (state: any) => state.authState.currentUser
-  );
-
-  const sssss = jwtDecode<IuserJWTPayLoad>(acTokenInRedux);
-
-  console.log("sssss ==>", sssss);
-
   const user = global?.window?.localStorage?.getItem("AC")
     ? JSON?.parse(localStorage?.getItem("AC") || "")
     : null;
