@@ -138,7 +138,7 @@ export const ApiPostComment = async(userId : string, postId : string, content : 
     }
 }
 
-export const ApiModifyCmt = async(userId : string, postId : string, cmtId : string, content : any, dispatch : any) => {
+export const ApiModifyCmt = async(userId : string, postId : string | null, cmtId : string, content : any, dispatch : any) => {
     dispatch(modifyCmtStart());
     try {
         const res = await axios.put(`https://be-travel-review.vercel.app/v1/comment/${postId}/${userId}/${cmtId}`,content);

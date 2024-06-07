@@ -1,15 +1,15 @@
 "use client";
 import React, { useState } from "react";
-import { IpopUp, IuserLogin } from "@/util/allInterface";
-import toast from "react-hot-toast";
-import { useDispatch } from "react-redux";
-import { setIndex, unSetIndex } from "@/components/reduxFeature/handleEdit";
+import { IEditComment, IuserLogin } from "@/util/allInterface";
+import { useDispatch, useSelector } from "react-redux";
+import { unSetIndex } from "@/components/reduxFeature/handleEdit";
 import { jwtDecode } from "jwt-decode";
-import { ApiContentModify } from "@/util/apiCall";
-import { ModifyContentEnd } from "@/components/reduxFeature/modifyContent";
+import { ApiModifyCmt } from "@/util/apiCall";
+import { modifyCmtEnd } from "@/components/reduxFeature/modifyCmt";
+import Reloading from "@/components/reloading/Reloading";
 
-const EditComponent = ({ item, index }: IpopUp) => {
-  const content = item?.content;
+const EditComment = ({ item, index, postId }: IEditComment) => {
+  const content = item?.comment;
   const [contentEdit, setContentEdit] = useState<string>(content);
   const dispatch = useDispatch();
   const getAcFromLocal = global?.window?.localStorage?.getItem("AC")
@@ -24,12 +24,13 @@ const EditComponent = ({ item, index }: IpopUp) => {
       if (!decodeUser)
         throw new Error("Please login or reload page, something went wrong");
       const userId = decodeUser?.user?._id;
-      const postId = item?._id;
-      ApiContentModify(userId, postId, content, dispatch);
+      const cmtId = item?._id;
+
+      ApiModifyCmt(userId, postId, cmtId, content, dispatch);
       dispatch(unSetIndex());
     } catch (error) {
       console.log(error);
-      dispatch(ModifyContentEnd());
+      dispatch(modifyCmtEnd());
     }
   };
   const handleCancleEdit = (e: any) => {
@@ -41,7 +42,7 @@ const EditComponent = ({ item, index }: IpopUp) => {
     <form onSubmit={handleSubmitEdit} className="flex flex-col gap-y-[2rem]">
       <textarea
         className={
-          content.length <= 315
+          content.length <= 100
             ? "w-[100%] outline outline-1 rounded-xl px-[0.5rem] px-[1rem]"
             : "w-[100%] h-[20rem] outline outline-1 rounded-xl px-[0.5rem] px-[1rem]"
         }
@@ -68,4 +69,4 @@ const EditComponent = ({ item, index }: IpopUp) => {
   );
 };
 
-export default EditComponent;
+export default EditComment;

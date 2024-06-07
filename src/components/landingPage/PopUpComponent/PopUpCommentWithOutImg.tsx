@@ -14,29 +14,27 @@ import { useRouter } from "next/navigation";
 import { ApiPostComment } from "@/util/apiCall";
 import Reloading from "@/components/reloading/Reloading";
 import TippyEditComment from "./TippyEditComment";
+import EditComment from "../IsEdit/EditComment";
 
 const PopUpCommentWithOutImg = ({ item, index }: IpopUp) => {
   const [comment, setComment] = useState<string>();
   const [commentList, setCommentList] = useState<any[]>([]);
-
   const [userId, setUserId] = useState<null | string>(null);
   const [postId, setPostId] = useState<null | string>(null);
-
   const [userAvatar, setUserAvatar] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(false);
-
   const [isUser, setIsUser] = useState<string>("");
 
   const isCommentFetching = useSelector(
     (state: any) => state.commentPost.isFetching
   );
-
   const deleteCmtFetching = useSelector(
     (state: any) => state.removeCmt.isFetching
   );
+  const isIndex = useSelector((state: any) => state.isIndex.index);
+  const fetchingCmt = useSelector((state: any) => state.modifyCmt.isFetching);
 
   const dispatch = useDispatch();
-
   const router = useRouter();
 
   const handleCloseModal = () => {
@@ -86,7 +84,7 @@ const PopUpCommentWithOutImg = ({ item, index }: IpopUp) => {
       }
     };
     fetch(item._id);
-  }, [isCommentFetching, deleteCmtFetching]);
+  }, [isCommentFetching, deleteCmtFetching, fetchingCmt]);
 
   return (
     <div
@@ -129,13 +127,7 @@ const PopUpCommentWithOutImg = ({ item, index }: IpopUp) => {
         />
       </div>
       <div className="p-2rem w-[52.65rem] overflow-auto">{item?.content}</div>
-      {!isUser || isUser === "" ? (
-        <button className="hover:animate-ping ml-[2rem] h-[3rem] w-[10rem] rounded-[10px] bg-cyan-300 self-center">
-          <Link href="/login" className="animate-ping-low text-white">
-            Click me to login
-          </Link>
-        </button>
-      ) : (
+      {isUser ? (
         <form onSubmit={handleComment}>
           <div className="flex flex-row items-center gap-[2rem] w-40[rem]">
             <Image
@@ -161,10 +153,16 @@ const PopUpCommentWithOutImg = ({ item, index }: IpopUp) => {
             </button>
           </div>
         </form>
+      ) : (
+        <button className="hover:animate-ping ml-[2rem] h-[3rem] w-[10rem] rounded-[10px] bg-cyan-300 self-center">
+          <Link href="/login" className="animate-ping-low text-white">
+            Click me to login
+          </Link>
+        </button>
       )}
 
       <div className="border-t-2 my-[2rem] pt-[2rem] w-[40rem] flex flex-col justify-center  max-h-[600px] overflow-auto">
-        {(isCommentFetching || loading || deleteCmtFetching) && (
+        {(isCommentFetching || loading || deleteCmtFetching || fetchingCmt) && (
           <Reloading size={50} className="" />
         )}
         {commentList?.map((item: any, index: number) => (
@@ -187,9 +185,13 @@ const PopUpCommentWithOutImg = ({ item, index }: IpopUp) => {
                   alt=""
                 />
               </div>
-              <div className="bg-gray-200 rounded-xl p-[1rem] flex items-center justify-between gap-x-[1rem] ">
-                {item?.comment}
-              </div>
+              {isIndex === index ? (
+                <EditComment item={item} postId={postId} />
+              ) : (
+                <div className="bg-gray-200 rounded-xl p-[1rem] flex items-center justify-between gap-x-[1rem] ">
+                  {item?.comment}
+                </div>
+              )}
             </div>
             {item?.userId._id === userId ? (
               <TippyEditComment item={item} index={index} postId={postId} />

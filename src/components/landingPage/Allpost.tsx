@@ -12,9 +12,10 @@ import PopUpComment from "./PopUpComponent/PopUpComment";
 import Reloading from "../reloading/Reloading";
 import { loadingEnd, loadingStart } from "../reduxFeature/reloadingState";
 import TippyEdit from "./PopUpComponent/TippyEdit";
-import EditComponent from "./IsEdit/EditComponent";
+import EditPost from "./IsEdit/EditPost";
 import { jwtDecode } from "jwt-decode";
 import { IuserJWTPayLoad } from "@/util/allInterface";
+import { unSetIndex } from "../reduxFeature/handleEdit";
 
 const Allpost = () => {
   const [allPost, setAllPost] = useState<any[]>([]);
@@ -45,6 +46,7 @@ const Allpost = () => {
 
   const handleCloseModal = () => {
     document.body.style.overflow = "auto";
+    dispatch(unSetIndex());
     dispatch(modalClose());
   };
 
@@ -127,7 +129,7 @@ const Allpost = () => {
             <div>
               {/* Edit content nam o day ne */}
               {isIndex === index ? (
-                <EditComponent item={item} />
+                <EditPost item={item} />
               ) : (
                 <div className="py-[1.5rem]">{item?.content}</div>
               )}

@@ -39,3 +39,7 @@ export   interface IuserLogin {
   export interface IuserJWTPayLoad extends JwtPayload{
     user ?: any
   }
+
+  export interface IEditComment extends IpopUp {
+    postId: string | null;
+  }
