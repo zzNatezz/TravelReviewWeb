@@ -193,7 +193,12 @@ const Allpost = () => {
                   onClick={(e) => handleClickAfterModalOpen(e)}
                   className="fixed left-[50%] top-[50%] translate-x-[-50%] translate-y-[-50%] bg-white w-[80rem] rounded-[20px] h-[max] z-[100]"
                 >
-                  <PopUpComment item={item} index={index} />
+                  <PopUpComment
+                    item={item}
+                    index={index}
+                    avatar={userAvatar}
+                    isUserId={userId}
+                  />
                 </div>
               )}
             </div>

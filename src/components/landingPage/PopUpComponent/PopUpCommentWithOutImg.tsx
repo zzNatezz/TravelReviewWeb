@@ -3,12 +3,10 @@ import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import timeFormat from "@/util/timeFormat";
 import icon from "@/asset/icon/icon";
-import Link from "next/link";
 import { modalClose } from "@/components/reduxFeature/modal";
 import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
-import { IpopUp, IuserJWTPayLoad } from "@/util/allInterface";
-import { jwtDecode } from "jwt-decode";
+import { IpopUp } from "@/util/allInterface";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
 import { ApiPostComment } from "@/util/apiCall";
@@ -45,15 +43,10 @@ const PopUpCommentWithOutImg = ({ item, index, avatar, isUserId }: IpopUp) => {
   const handleComment = (e: any) => {
     e.preventDefault();
     try {
-      if (!userId) {
-        toast.error("Please let me know who you are!!!");
-        router.push("/login");
-      } else {
-        const postId = item._id;
-        const content = { comment: comment };
-        ApiPostComment(userId, postId, content, dispatch);
-        setComment("");
-      }
+      const postId = item._id;
+      const content = { comment: comment };
+      ApiPostComment(userId, postId, content, dispatch);
+      setComment("");
     } catch (error) {
       console.log(error);
     }
@@ -126,7 +119,7 @@ const PopUpCommentWithOutImg = ({ item, index, avatar, isUserId }: IpopUp) => {
             style={{ width: "4.5rem", height: "4.5rem" }}
             width={50}
             height={50}
-            src={userAvatar}
+            src={userAvatar ? userAvatar : icon.defaultAvatar}
             alt="loading..."
           />
           <input

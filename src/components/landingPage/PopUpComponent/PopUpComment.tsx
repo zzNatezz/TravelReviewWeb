@@ -3,17 +3,32 @@ import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import timeFormat from "@/util/timeFormat";
 import icon from "@/asset/icon/icon";
-import image from "@/asset/picture/image";
 import { modalClose } from "@/components/reduxFeature/modal";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
-import { IEditPostUp } from "@/util/allInterface";
+import { IpopUp } from "@/util/allInterface";
 import Reloading from "@/components/reloading/Reloading";
+import { ApiPostComment } from "@/util/apiCall";
+import EditComment from "../IsEdit/EditComment";
+import TippyEditComment from "./TippyEditComment";
 
-const PopUpComment = ({ item, index }: IEditPostUp) => {
+const PopUpComment = ({ item, index, avatar, isUserId }: IpopUp) => {
   const [comment, setComment] = useState<string>();
   const [commentList, setCommentList] = useState<any[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
+  const [postId, setPostId] = useState<null | string>(null);
+
+  const userId = isUserId;
+  const userAvatar: string = avatar;
+
+  const isCommentFetching = useSelector(
+    (state: any) => state.commentPost.isFetching
+  );
+  const deleteCmtFetching = useSelector(
+    (state: any) => state.removeCmt.isFetching
+  );
+  const isIndex = useSelector((state: any) => state.isIndex.index);
+  const fetchingCmt = useSelector((state: any) => state.modifyCmt.isFetching);
 
   const dispatch = useDispatch();
 
@@ -24,7 +39,14 @@ const PopUpComment = ({ item, index }: IEditPostUp) => {
 
   const handleComment = (e: any) => {
     e.preventDefault();
-    console.log(comment);
+    try {
+      const postId = item._id;
+      const content = { comment: comment };
+      ApiPostComment(userId, postId, content, dispatch);
+      setComment("");
+    } catch (error) {
+      console.log(error);
+    }
   };
   useEffect(() => {
     const fetch = async (postId: any) => {
@@ -35,13 +57,14 @@ const PopUpComment = ({ item, index }: IEditPostUp) => {
         );
         setCommentList(res?.data?.comment);
         setLoading(false);
+        setPostId(item._id);
       } catch (error) {
         console.log(error);
         setLoading(false);
       }
     };
     fetch(item._id);
-  }, []);
+  }, [isCommentFetching, deleteCmtFetching, fetchingCmt]);
 
   return (
     <div
@@ -102,7 +125,9 @@ const PopUpComment = ({ item, index }: IEditPostUp) => {
             <Image
               className="rounded-[50%]"
               style={{ width: "5rem", height: "5rem" }}
-              src={image.avatar}
+              width={50}
+              height={50}
+              src={userAvatar ? userAvatar : icon.defaultAvatar}
               alt="loading..."
             />
             <input
@@ -121,40 +146,44 @@ const PopUpComment = ({ item, index }: IEditPostUp) => {
           </div>
         </form>
         <div className="border-t-2 my-[2rem] pt-[2rem] w-[30rem] flex flex-col">
-          {loading ? (
-            <Reloading size={45} className="self-center" />
-          ) : (
-            commentList?.map((item: any, index: number) => (
-              <div
-                key={index}
-                className={
-                  index % 2 === 0
-                    ? "bg-white p-[1rem] flex items-center justify-between gap-x-[0.5rem]"
-                    : "bg-gray-200 rounded-xl p-[1rem] flex items-center justify-between gap-x-[1rem] "
-                }
-              >
-                <div className="flex items-center gap-x-[1rem]">
-                  <div className="flex flex-col items-center gap-x-[0.5rem] ">
-                    <div className="w-max">{item?.userId?.userName}</div>
-                    <Image
-                      style={{ width: "50px", height: "50px" }}
-                      width={200}
-                      height={200}
-                      unoptimized
-                      src={
-                        item?.userId.avatar.url === ""
-                          ? icon.defaultAvatar
-                          : item?.userId.avatar.ur
-                      }
-                      alt=""
-                    />
-                  </div>
-                  <div className="">{item?.comment}</div>
+          {(isCommentFetching ||
+            loading ||
+            deleteCmtFetching ||
+            fetchingCmt) && <Reloading size={50} className="" />}
+          {commentList?.map((item: any, index: number) => (
+            <div
+              key={index}
+              className="bg-white p-[1rem] flex items-center justify-between gap-x-[0.5rem]"
+            >
+              <div className="flex items-center gap-x-[1rem]">
+                <div className="flex flex-col items-center gap-x-[0.5rem] ">
+                  <div className="w-max">{item?.userId?.userName}</div>
+                  <Image
+                    style={{ width: "50px", height: "50px" }}
+                    width={200}
+                    height={200}
+                    unoptimized
+                    src={
+                      item?.userId.avatar.url === ""
+                        ? icon.defaultAvatar
+                        : item?.userId.avatar.ur
+                    }
+                    alt=""
+                  />
                 </div>
-                <Image width={30} height={30} src={icon.settingIcon} alt="" />
+                {isIndex === index ? (
+                  <EditComment item={item} postId={postId} />
+                ) : (
+                  <div className="bg-gray-200 rounded-xl p-[1rem] flex items-center justify-between gap-x-[1rem] ">
+                    {item?.comment}
+                  </div>
+                )}
               </div>
-            ))
-          )}
+              {item?.userId._id === userId ? (
+                <TippyEditComment item={item} index={index} postId={postId} />
+              ) : null}
+            </div>
+          ))}
         </div>
       </div>
     </div>
