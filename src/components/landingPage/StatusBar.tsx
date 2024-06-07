@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import image from "@/asset/picture/image";
 import { IReview, IuserLogin } from "@/util/allInterface";
@@ -12,20 +12,35 @@ const StatusBar = () => {
   const [thinking, setThinking] = useState<string>("");
   const [avatar, setAvatar] = useState<IReview>();
   const [picture, setPicture] = useState<any>();
+  const [userPic, setUserPic] = useState<string>("");
+  const [userId, setUserId] = useState<string>("");
 
   const user = global?.window?.localStorage?.getItem("AC")
     ? JSON?.parse(localStorage?.getItem("AC") || "")
     : null;
+
+  useEffect(() => {
+    try {
+      const user = global?.window?.localStorage?.getItem("AC")
+        ? JSON?.parse(localStorage?.getItem("AC") || "")
+        : null;
+      const decodeUser = jwtDecode<IuserLogin>(user);
+
+      if (!decodeUser)
+        throw new Error("Please login or reload page, something went wrong");
+      setUserId(decodeUser?.user?._id);
+      setUserPic(decodeUser?.user?.avatar?.url);
+    } catch (error) {
+      console.log(error);
+    }
+  });
+
   const dispatch = useDispatch();
 
   const handlePost = (e: any) => {
     e.preventDefault();
     try {
       const content = { content: thinking, file: picture };
-      const decodeUser = jwtDecode<IuserLogin>(user);
-      if (!decodeUser)
-        throw new Error("Please login or reload page, something went wrong");
-      const userId = decodeUser?.user?._id;
       ApiPost(userId, content, dispatch);
       setThinking("");
     } catch (error) {
@@ -62,13 +77,17 @@ const StatusBar = () => {
           />
           {avatar === undefined ? (
             <Image
+              width={45}
+              height={45}
               className="rounded-[50%] cursor-pointer;"
               style={{ width: "4.5rem", height: "4.5rem" }}
-              src={image.avatar}
+              src={!userPic || userPic === "" ? image.avatar : userPic}
               alt="loading..."
             />
           ) : (
             <Image
+              width={45}
+              height={45}
               className="rounded-[50%] cursor-pointer;"
               style={{ width: "4.5rem", height: "4.5rem" }}
               src={avatar.review}

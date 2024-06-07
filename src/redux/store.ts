@@ -9,6 +9,9 @@ import postReducer from '@/components/reduxFeature/postState'
 import removePostReducer from '@/components/reduxFeature/removePost'
 import indexReducer from '@/components/reduxFeature/handleEdit'
 import modifyContentReducer from '@/components/reduxFeature/modifyContent'
+import commentPostReducer from "@/components/reduxFeature/postCommentState"
+import removeCmtReducer from '@/components/reduxFeature/removeCmtState'
+import modifyCmtReducer from '@/components/reduxFeature/modifyCmt'
 
 
 
@@ -26,6 +29,9 @@ export const makeStore = () => {
       removePost : removePostReducer,
       isIndex : indexReducer,
       modifyString : modifyContentReducer,
+      commentPost : commentPostReducer,
+      removeCmt : removeCmtReducer,
+      modifyCmt : modifyCmtReducer
     },
   })
 }

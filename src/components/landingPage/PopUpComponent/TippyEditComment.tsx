@@ -7,13 +7,13 @@ import { useDispatch } from "react-redux";
 import { jwtDecode } from "jwt-decode";
 import { IpopUp, IuserLogin } from "@/util/allInterface";
 import { setIndex } from "@/components/reduxFeature/handleEdit";
-import { ApiRemovePost } from "@/util/apiCall";
+import { ApiRemoveCmt } from "@/util/apiCall";
 
-interface IEditPostUp extends IpopUp {
-  placement?: string;
+interface IEditComment extends IpopUp {
+  postId: string | null;
 }
 
-const TippyEdit = ({ item, index }: IEditPostUp) => {
+const TippyEditComment = ({ item, index, postId }: IEditComment) => {
   const [visible, setVisible] = useState<boolean>(false);
   const getAcFromLocal = global?.window?.localStorage?.getItem("AC")
     ? JSON?.parse(localStorage?.getItem("AC") || "")
@@ -24,15 +24,16 @@ const TippyEdit = ({ item, index }: IEditPostUp) => {
   const show = () => setVisible(true);
   const hide = () => setVisible(false);
 
-  const handleRemovePost = (e: any) => {
+  const handleRemoveComment = (e: any) => {
     e.preventDefault();
     try {
       const decodeUser = jwtDecode<IuserLogin>(getAcFromLocal);
       if (!decodeUser)
         throw new Error("Please login or reload page, something went wrong");
       const userId = decodeUser?.user?._id;
-      const postId = item._id;
-      ApiRemovePost(userId, postId, dispatch);
+      const cmtId = item._id;
+
+      ApiRemoveCmt(userId, postId, cmtId, dispatch);
       setVisible(false);
     } catch (error) {
       console.log(error);
@@ -48,12 +49,12 @@ const TippyEdit = ({ item, index }: IEditPostUp) => {
   return (
     <Tippy
       onClickOutside={hide}
-      placement="bottom"
+      placement="right-start"
       visible={visible}
       interactive
       render={(attrs) => (
         <div
-          className="box flex flex-col items-end text-xl mr-[4rem] gap-[2rem]"
+          className="box flex flex-col items-start text-xl mr-[4rem] gap-[2rem]"
           tabIndex={1}
           {...attrs}
         >
@@ -64,7 +65,7 @@ const TippyEdit = ({ item, index }: IEditPostUp) => {
             Edit
           </button>
           <button
-            onClick={(e) => handleRemovePost(e)}
+            onClick={(e) => handleRemoveComment(e)}
             className="bg-orange-600 rounded-[1rem] px-[1rem] text-white  "
           >
             Remove
@@ -84,4 +85,4 @@ const TippyEdit = ({ item, index }: IEditPostUp) => {
   );
 };
 
-export default TippyEdit;
+export default TippyEditComment;

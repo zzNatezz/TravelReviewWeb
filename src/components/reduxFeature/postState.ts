@@ -1,6 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
-import { useDispatch } from 'react-redux'
-import { loadingEnd, loadingStart } from './reloadingState'
+
 
 interface post {
     postStt : {},

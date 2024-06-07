@@ -6,7 +6,8 @@ export   interface IuserLogin {
         _id : string
       email: string,
       userName : string,
-      admin : boolean
+      admin : boolean,
+      avatar : any
       
     };
   }
@@ -21,7 +22,7 @@ export   interface IuserLogin {
 
   export interface IpopUp {
     item : any,
-    index ?: number
+    index ?: number,
   }
 
   export interface ICommentListInAPI{

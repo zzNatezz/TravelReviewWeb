@@ -8,6 +8,9 @@ import { postFail, postStart, postSuccess } from "../components/reduxFeature/pos
 import { removedPostFail, removedPostStart, removedPostSuccess } from "../components/reduxFeature/removePost";
 import { loadingEnd, loadingStart } from "../components/reduxFeature/reloadingState";
 import { ModifyContentEnd, ModifyContentStart, ModifyContentSuccess } from "@/components/reduxFeature/modifyContent";
+import { CommentPostFail, CommentPostStart, CommentPostSuccess } from "@/components/reduxFeature/postCommentState";
+import { modifyCmtEnd, modifyCmtStart, modifyCmtSuccess } from "@/components/reduxFeature/modifyCmt";
+import { removedCommentEnd, removedCommentStart, removedCommentSuccess } from "@/components/reduxFeature/removeCmtState";
 
 
 export const ApiLogin = async (user:any, dispatch : any, router :any) => {
@@ -117,5 +120,46 @@ export const ApiContentModify = async( userId : string, postId : string, content
         toast.error('Something went wrong')
         console.log(error);
         dispatch(ModifyContentEnd());
+    }
+}
+
+export const ApiPostComment = async(userId : string, postId : string, content : any, dispatch : any) =>{
+    dispatch(CommentPostStart());
+    try {
+        const res = await axios.post(`https://be-travel-review.vercel.app/v1/comment/${userId}/${postId}`,content);
+        toast.success(res?.data);
+        dispatch(CommentPostSuccess(res.data));
+        dispatch(CommentPostFail());
+    } catch (error : any) {
+        toast.error(error?.response?.data)
+        console.log(error);
+        dispatch(CommentPostFail());
+        
+    }
+}
+
+export const ApiModifyCmt = async(userId : string, postId : string, cmtId : string, content : any, dispatch : any) => {
+    dispatch(modifyCmtStart());
+    try {
+        const res = await axios.put(`https://be-travel-review.vercel.app/v1/comment/${postId}/${userId}/${cmtId}`,content);
+        toast.success(res?.data);
+        dispatch(modifyCmtSuccess(res.data))
+        dispatch(modifyCmtEnd())
+    } catch (error : any) {
+        toast.error(error?.response?.data)
+        dispatch(modifyCmtEnd())
+    }
+}
+
+export const ApiRemoveCmt = async(userId : string, postId : string |null , cmtId : string, dispatch : any) => {
+    dispatch(removedCommentStart());
+    try {
+        const res = await axios.delete(`https://be-travel-review.vercel.app/v1/comment/${postId}/${userId}/${cmtId}`);
+        toast.success(res?.data);
+        dispatch(removedCommentSuccess(res.data));
+        dispatch(removedCommentEnd());
+    } catch (error : any) {
+        toast.error(error?.response?.data);
+        dispatch(removedCommentEnd());
     }
 }
