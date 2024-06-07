@@ -1,12 +1,12 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import Image from "next/image";
-import image from "@/asset/picture/image";
 import { IReview, IuserLogin } from "@/util/allInterface";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { jwtDecode } from "jwt-decode";
 import { ApiPost } from "../../util/apiCall";
 import { postFail } from "../reduxFeature/postState";
+import icon from "@/asset/icon/icon";
 
 const StatusBar = () => {
   const [thinking, setThinking] = useState<string>("");
@@ -15,17 +15,12 @@ const StatusBar = () => {
   const [userPic, setUserPic] = useState<string>("");
   const [userId, setUserId] = useState<string>("");
 
-  const user = global?.window?.localStorage?.getItem("AC")
-    ? JSON?.parse(localStorage?.getItem("AC") || "")
-    : null;
-
   useEffect(() => {
     try {
       const user = global?.window?.localStorage?.getItem("AC")
         ? JSON?.parse(localStorage?.getItem("AC") || "")
         : null;
       const decodeUser = jwtDecode<IuserLogin>(user);
-
       if (!decodeUser)
         throw new Error("Please login or reload page, something went wrong");
       setUserId(decodeUser?.user?._id);
@@ -81,7 +76,7 @@ const StatusBar = () => {
               height={45}
               className="rounded-[50%] cursor-pointer;"
               style={{ width: "4.5rem", height: "4.5rem" }}
-              src={!userPic || userPic === "" ? image.avatar : userPic}
+              src={!userPic ? icon.defaultAvatar : userPic}
               alt="loading..."
             />
           ) : (

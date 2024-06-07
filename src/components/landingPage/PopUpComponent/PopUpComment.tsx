@@ -7,10 +7,10 @@ import image from "@/asset/picture/image";
 import { modalClose } from "@/components/reduxFeature/modal";
 import { useDispatch } from "react-redux";
 import axios from "axios";
-import { IpopUp } from "@/util/allInterface";
+import { IEditPostUp } from "@/util/allInterface";
 import Reloading from "@/components/reloading/Reloading";
 
-const PopUpComment = ({ item, index }: IpopUp) => {
+const PopUpComment = ({ item, index }: IEditPostUp) => {
   const [comment, setComment] = useState<string>();
   const [commentList, setCommentList] = useState<any[]>([]);
   const [loading, setLoading] = useState<boolean>(false);

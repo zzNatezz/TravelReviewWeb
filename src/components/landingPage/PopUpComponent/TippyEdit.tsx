@@ -5,13 +5,9 @@ import icon from "@/asset/icon/icon";
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { jwtDecode } from "jwt-decode";
-import { IpopUp, IuserLogin } from "@/util/allInterface";
+import { IEditPostUp, IuserLogin } from "@/util/allInterface";
 import { setIndex } from "@/components/reduxFeature/handleEdit";
 import { ApiRemovePost } from "@/util/apiCall";
-
-interface IEditPostUp extends IpopUp {
-  placement?: string;
-}
 
 const TippyEdit = ({ item, index }: IEditPostUp) => {
   const [visible, setVisible] = useState<boolean>(false);

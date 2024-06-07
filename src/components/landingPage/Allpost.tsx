@@ -1,7 +1,6 @@
 "use client";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import toast from "react-hot-toast";
 import Image from "next/image";
 import icon from "@/asset/icon/icon";
 import timeFormat from "@/util/timeFormat";
@@ -16,32 +15,34 @@ import EditPost from "./IsEdit/EditPost";
 import { jwtDecode } from "jwt-decode";
 import { IuserJWTPayLoad } from "@/util/allInterface";
 import { unSetIndex } from "../reduxFeature/handleEdit";
+import { useRouter } from "next/navigation";
 
 const Allpost = () => {
   const [allPost, setAllPost] = useState<any[]>([]);
-
   const [userId, setUserId] = useState<string>("");
+  const [userAvatar, setUserAvatar] = useState<string>("");
 
   const isPopUp = useSelector((state: any) => state.modalState.isOpen);
-  const dispatch = useDispatch();
-
   const isLoading = useSelector((state: any) => state.isLoading.isLoading);
-
   const isFetchingPost = useSelector((state: any) => state.postStt.isFetching);
-
   const FetchingRemovedPost = useSelector(
     (state: any) => state.removePost.isFetching
   );
-
   const isFetchingEdit = useSelector(
     (state: any) => state.modifyString.isFetching
   );
-
   const isIndex = useSelector((state: any) => state.isIndex.index);
 
+  const dispatch = useDispatch();
+  const router = useRouter();
+
   const handleOpenModal = (index: number) => {
-    document.body.style.overflow = "hidden";
-    dispatch(modalOpen(index));
+    if (!userId) {
+      return router.push("/login");
+    } else {
+      document.body.style.overflow = "hidden";
+      dispatch(modalOpen(index));
+    }
   };
 
   const handleCloseModal = () => {
@@ -70,8 +71,8 @@ const Allpost = () => {
 
         const decodeUser = jwtDecode<IuserJWTPayLoad>(user);
         setUserId(decodeUser?.user?._id);
+        setUserAvatar(decodeUser?.user?.avatar.url);
       } catch (error) {
-        toast.error("Sever is being break out, sorry for this inconvenience");
         dispatch(loadingEnd());
       }
     };
@@ -180,7 +181,12 @@ const Allpost = () => {
                   onClick={(e) => handleClickAfterModalOpen(e)}
                   className="fixed left-[50%] top-[50%] translate-x-[-50%] translate-y-[-50%] bg-white w-[60rem] rounded-[20px] h-[max] z-[100]"
                 >
-                  <PopUpCommentWithOutImg item={item} index={index} />
+                  <PopUpCommentWithOutImg
+                    item={item}
+                    index={index}
+                    avatar={userAvatar}
+                    isUserId={userId}
+                  />
                 </div>
               ) : (
                 <div

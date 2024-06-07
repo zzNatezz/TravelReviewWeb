@@ -16,14 +16,14 @@ import Reloading from "@/components/reloading/Reloading";
 import TippyEditComment from "./TippyEditComment";
 import EditComment from "../IsEdit/EditComment";
 
-const PopUpCommentWithOutImg = ({ item, index }: IpopUp) => {
+const PopUpCommentWithOutImg = ({ item, index, avatar, isUserId }: IpopUp) => {
   const [comment, setComment] = useState<string>();
   const [commentList, setCommentList] = useState<any[]>([]);
-  const [userId, setUserId] = useState<null | string>(null);
   const [postId, setPostId] = useState<null | string>(null);
-  const [userAvatar, setUserAvatar] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(false);
-  const [isUser, setIsUser] = useState<string>("");
+
+  const userId = isUserId;
+  const userAvatar: string = avatar;
 
   const isCommentFetching = useSelector(
     (state: any) => state.commentPost.isFetching
@@ -66,16 +66,8 @@ const PopUpCommentWithOutImg = ({ item, index }: IpopUp) => {
         const res: any = await axios.get(
           `https://be-travel-review.vercel.app/v1/comment/${postId}`
         );
-
         setCommentList(res?.data?.comment);
 
-        const user = global?.window?.localStorage?.getItem("AC")
-          ? JSON?.parse(localStorage?.getItem("AC") || "")
-          : null;
-        setIsUser(user);
-        const decodeUser = jwtDecode<IuserJWTPayLoad>(user);
-        setUserId(decodeUser?.user?._id);
-        setUserAvatar(decodeUser?.user?.avatar.url);
         setLoading(false);
         setPostId(item._id);
       } catch (error) {
@@ -127,39 +119,31 @@ const PopUpCommentWithOutImg = ({ item, index }: IpopUp) => {
         />
       </div>
       <div className="p-2rem w-[52.65rem] overflow-auto">{item?.content}</div>
-      {isUser ? (
-        <form onSubmit={handleComment}>
-          <div className="flex flex-row items-center gap-[2rem] w-40[rem]">
-            <Image
-              className="rounded-[50%] cursor-pointer grid place-items-center"
-              style={{ width: "4.5rem", height: "4.5rem" }}
-              width={50}
-              height={50}
-              src={userAvatar === "" ? icon.defaultAvatar : userAvatar}
-              alt="loading..."
-            />
-            <input
-              className="h-[3rem] py-[1rem] w-[40rem] rounded-[20px] px-[10px] outline outline-[1px]"
-              type="text"
-              placeholder="Do you want to comment any things ?"
-              value={comment}
-              onChange={(e) => setComment(e.target.value)}
-            />
-            <button
-              className="h-[3rem] w-[5rem] rounded-[10px] text-white bg-cyan-300"
-              type="submit"
-            >
-              Comment
-            </button>
-          </div>
-        </form>
-      ) : (
-        <button className="hover:animate-ping ml-[2rem] h-[3rem] w-[10rem] rounded-[10px] bg-cyan-300 self-center">
-          <Link href="/login" className="animate-ping-low text-white">
-            Click me to login
-          </Link>
-        </button>
-      )}
+      <form onSubmit={handleComment}>
+        <div className="flex flex-row items-center gap-[2rem] w-40[rem]">
+          <Image
+            className="rounded-[50%] cursor-pointer grid place-items-center"
+            style={{ width: "4.5rem", height: "4.5rem" }}
+            width={50}
+            height={50}
+            src={userAvatar}
+            alt="loading..."
+          />
+          <input
+            className="h-[3rem] py-[1rem] w-[40rem] rounded-[20px] px-[10px] outline outline-[1px]"
+            type="text"
+            placeholder="Do you want to comment any things ?"
+            value={comment}
+            onChange={(e) => setComment(e.target.value)}
+          />
+          <button
+            className="h-[3rem] w-[5rem] rounded-[10px] text-white bg-cyan-300"
+            type="submit"
+          >
+            Comment
+          </button>
+        </div>
+      </form>
 
       <div className="border-t-2 my-[2rem] pt-[2rem] w-[40rem] flex flex-col justify-center  max-h-[600px] overflow-auto">
         {(isCommentFetching || loading || deleteCmtFetching || fetchingCmt) && (

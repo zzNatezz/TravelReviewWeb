@@ -1,14 +1,13 @@
 "use client";
 import React, { useState } from "react";
-import { IpopUp, IuserLogin } from "@/util/allInterface";
-import toast from "react-hot-toast";
+import { IEditPostUp, IuserLogin } from "@/util/allInterface";
 import { useDispatch } from "react-redux";
-import { setIndex, unSetIndex } from "@/components/reduxFeature/handleEdit";
+import { unSetIndex } from "@/components/reduxFeature/handleEdit";
 import { jwtDecode } from "jwt-decode";
 import { ApiContentModify } from "@/util/apiCall";
 import { ModifyContentEnd } from "@/components/reduxFeature/modifyContent";
 
-const EditPost = ({ item, index }: IpopUp) => {
+const EditPost = ({ item, index }: IEditPostUp) => {
   const content = item?.content;
   const [contentEdit, setContentEdit] = useState<string>(content);
   const dispatch = useDispatch();

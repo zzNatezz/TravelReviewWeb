@@ -23,6 +23,8 @@ export   interface IuserLogin {
   export interface IpopUp {
     item : any,
     index ?: number,
+    avatar : string
+    isUserId : string
   }
 
   export interface ICommentListInAPI{
@@ -40,6 +42,13 @@ export   interface IuserLogin {
     user ?: any
   }
 
-  export interface IEditComment extends IpopUp {
+  export interface IEditComment {
+    item : any,
+    index ?: number,
     postId: string | null;
+  }
+
+  export interface IEditPostUp {
+    item : any,
+    index ?: number,
   }
