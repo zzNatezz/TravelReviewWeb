@@ -82,10 +82,10 @@ export const ApiGetpostWithID = async(postId : string , dispatch : any) =>{
     }
 }
 
-export const ApiPost = async(userId : string, content : any ,dispatch : any) => {
+export const ApiPost = async(userId : string, form : any ,dispatch : any) => {
     dispatch(postStart());
     try {
-        const res = await axios.post(`https://be-travel-review.vercel.app/v1/content/${userId}`,content);
+        const res = await axios.post(`https://be-travel-review.vercel.app/v1/content/${userId}`,form);
         dispatch(postSuccess(res.data));
         toast.success("Post successfully");
 

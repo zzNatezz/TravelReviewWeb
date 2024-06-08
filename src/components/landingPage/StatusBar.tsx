@@ -14,6 +14,7 @@ const StatusBar = () => {
   const [picture, setPicture] = useState<string | null>(null);
   const [userAvatar, setuserAvatar] = useState<string>("");
   const [userId, setUserId] = useState<string>("");
+  const [processingImag, setProcessingImag] = useState<any>();
 
   useEffect(() => {
     try {
@@ -35,8 +36,10 @@ const StatusBar = () => {
   const handlePost = (e: any) => {
     e.preventDefault();
     try {
-      const content = { content: thinking, file: picture };
-      ApiPost(userId, content, dispatch);
+      const form = new FormData();
+      form.append("content", thinking);
+      form.append("file", processingImag);
+      ApiPost(userId, form, dispatch);
       setThinking("");
       setPicture(null);
     } catch (error) {
@@ -55,6 +58,7 @@ const StatusBar = () => {
   const updatePicture = (e: any) => {
     try {
       const processingImag = e.target.files[0];
+      setProcessingImag(processingImag);
       if (e.target.files.length !== 0) {
         processingImag.review = URL.createObjectURL(processingImag);
       }
