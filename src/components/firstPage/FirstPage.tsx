@@ -5,7 +5,6 @@ import image from "@/asset/picture/image";
 import DoUThink from "../landingPage/DoUThink";
 import Allpost from "../landingPage/Allpost";
 
-// filter invert-[1]
 const FirstPage = () => {
   return (
     <div className="flex flex-col items-center w-screen h-[100%]">

@@ -40,13 +40,13 @@ const Allpost = () => {
     if (!userId) {
       return router.push("/login");
     } else {
-      document.body.style.overflow = "hidden";
+      document.body.style.overflowY = "hidden";
       dispatch(modalOpen(index));
     }
   };
 
   const handleCloseModal = () => {
-    document.body.style.overflow = "auto";
+    document.body.style.overflowY = "auto";
     dispatch(unSetIndex());
     dispatch(modalClose());
   };
@@ -77,16 +77,11 @@ const Allpost = () => {
       }
     };
     fetchData();
+    document.body.style.overflowX = "hidden";
   }, [isFetchingPost, FetchingRemovedPost, isFetchingEdit]);
 
   return (
-    <div
-      className={
-        isPopUp === undefined
-          ? "mt-[20px] rounded-[2rem] bg-white shadow-[0px_20px_30px_-1px_rgba(0,0,0,1)] w-[56.25rem] text-black p-[2rem] flex flex-col gap-y-[5rem] h-max"
-          : "mt-[20px] rounded-[2rem] bg-white shadow-[0px_20px_30px_-1px_rgba(0,0,0,1)] w-[56.25rem] text-black p-[2rem] flex flex-col gap-y-[5rem] h-max"
-      }
-    >
+    <div className="mt-[20px] rounded-[2rem] bg-white shadow-[0px_20px_30px_-1px_rgba(0,0,0,1)] w-[56.25rem] text-black p-[2rem] flex flex-col gap-y-[5rem] h-max">
       {(isLoading ||
         isFetchingPost ||
         FetchingRemovedPost ||

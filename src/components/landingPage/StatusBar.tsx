@@ -74,7 +74,7 @@ const StatusBar = () => {
             <Image
               width={45}
               height={45}
-              className="rounded-[50%] cursor-pointer;"
+              className="rounded-[50%] cursor-pointer"
               style={{ width: "4.5rem", height: "4.5rem" }}
               src={!userPic ? icon.defaultAvatar : userPic}
               alt="loading..."
@@ -83,7 +83,7 @@ const StatusBar = () => {
             <Image
               width={45}
               height={45}
-              className="rounded-[50%] cursor-pointer;"
+              className="rounded-[50%] cursor-pointer"
               style={{ width: "4.5rem", height: "4.5rem" }}
               src={avatar.review}
               alt="loading..."
