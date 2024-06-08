@@ -10,9 +10,9 @@ import icon from "@/asset/icon/icon";
 
 const StatusBar = () => {
   const [thinking, setThinking] = useState<string>("");
-  const [avatar, setAvatar] = useState<IReview>();
-  const [picture, setPicture] = useState<any>();
-  const [userPic, setUserPic] = useState<string>("");
+  // const [avatar, setAvatar] = useState<IReview>();
+  const [picture, setPicture] = useState<string | null>(null);
+  const [userAvatar, setuserAvatar] = useState<string>("");
   const [userId, setUserId] = useState<string>("");
 
   useEffect(() => {
@@ -24,11 +24,11 @@ const StatusBar = () => {
       if (!decodeUser)
         throw new Error("Please login or reload page, something went wrong");
       setUserId(decodeUser?.user?._id);
-      setUserPic(decodeUser?.user?.avatar?.url);
+      setuserAvatar(decodeUser?.user?.avatar?.url);
     } catch (error) {
       console.log(error);
     }
-  });
+  }, [picture]);
 
   const dispatch = useDispatch();
 
@@ -38,83 +38,74 @@ const StatusBar = () => {
       const content = { content: thinking, file: picture };
       ApiPost(userId, content, dispatch);
       setThinking("");
+      setPicture(null);
     } catch (error) {
       dispatch(postFail());
     }
   };
 
-  const updateAvatar = (e: any) => {
-    avatar && URL.revokeObjectURL(avatar.review);
-    const processingImag = e.target.files[0];
-    if (e.target.files.length !== 0) {
-      processingImag.review = URL.createObjectURL(processingImag);
-    }
-    setAvatar(processingImag);
-  };
+  // const updateAvatar = (e: any) => {
+  //   const processingImag = e.target.files[0];
+  //   if (e.target.files.length !== 0) {
+  //     processingImag.review = URL.createObjectURL(processingImag);
+  //   }
+  //   setAvatar(processingImag);
+  // };
 
   const updatePicture = (e: any) => {
-    const processingImag = e.target.files[0];
-    if (e.target.files.length !== 0) {
-      processingImag.review = URL.createObjectURL(processingImag);
+    try {
+      const processingImag = e.target.files[0];
+      if (e.target.files.length !== 0) {
+        processingImag.review = URL.createObjectURL(processingImag);
+      }
+      setPicture(processingImag?.review);
+    } catch (error) {
+      console.log(error);
     }
-    setPicture(processingImag.review);
   };
 
   return (
     <div className="flex flex-row items-center gap-[2rem]">
-      <div className="">
-        <label htmlFor="imagine">
-          <input
-            id="imagine"
-            type="file"
-            style={{ display: "none" }}
-            onChange={(e) => updateAvatar(e)}
-          />
-          {avatar === undefined ? (
-            <Image
-              width={45}
-              height={45}
-              className="rounded-[50%] cursor-pointer"
-              style={{ width: "4.5rem", height: "4.5rem" }}
-              src={!userPic ? icon.defaultAvatar : userPic}
-              alt="loading..."
-            />
-          ) : (
-            <Image
-              width={45}
-              height={45}
-              className="rounded-[50%] cursor-pointer"
-              style={{ width: "4.5rem", height: "4.5rem" }}
-              src={avatar.review}
-              alt="loading..."
-            />
-          )}
-        </label>
-      </div>
+      <Image
+        width={45}
+        height={45}
+        className="rounded-[50%] cursor-pointer"
+        style={{ width: "4.5rem", height: "4.5rem" }}
+        src={!userAvatar ? icon.defaultAvatar : userAvatar}
+        alt="loading..."
+      />
       <form
         className="flex flex-row items-center gap-[2rem]"
         onSubmit={handlePost}
       >
         <div>
-          <label className="cursor-pointer" htmlFor="imagine">
-            {/* <Image
+          <label className="cursor-pointer" htmlFor="previewPicture">
+            <Image
               className="rounded-[50%] cursor-pointer"
               width={30}
               height={30}
               src={icon.picture}
               alt="upload picture ?"
-            /> */}
+            />
             <input
-              // className="opacity-0 absolute z-[-1]"
-              name="filename"
+              className=" w-[0.1px] h-[0.1px] hidden z-[-1]"
+              id="previewPicture" //id này phải trùng vs htmlFor
+              name="imagine"
               type="file"
-              style={{ display: "block" }}
               onChange={(e) => updatePicture(e)}
             />
           </label>
           {picture && (
-            <div>
+            <div className="relative py-[1rem] w-max">
               <Image width={100} height={100} src={picture} alt="" />
+              <Image
+                onClick={() => setPicture(null)}
+                className="absolute top-[1rem] right-[0] "
+                width={20}
+                height={20}
+                src={icon.picturecloseIcon}
+                alt=""
+              />
             </div>
           )}
 

@@ -16,6 +16,7 @@ import { jwtDecode } from "jwt-decode";
 import { IuserJWTPayLoad } from "@/util/allInterface";
 import { unSetIndex } from "../reduxFeature/handleEdit";
 import { useRouter } from "next/navigation";
+import QttCmt from "./QttCmt";
 
 const Allpost = () => {
   const [allPost, setAllPost] = useState<any[]>([]);
@@ -147,19 +148,20 @@ const Allpost = () => {
             </div>
             <hr className="mt-[2rem]" />
             <div className="mt-[1rem] flex items-center justify-between">
-              <div className="flex items-center gap-x-[0.5rem]">
+              <div className="flex items-center gap-x-[0.5rem] hover:bg-rose-400 rounded-xl px-[0.4rem] ">
                 <Image width={24} height={24} src={icon.heatUnactive} alt="" />
                 <div>Reaction</div>
               </div>
               <button
                 type="button"
                 onClick={() => handleOpenModal(index)}
-                className="flex items-center gap-x-[0.5rem]"
+                className="flex items-center gap-x-[0.5rem] hover:bg-cyan-400 rounded-xl px-[0.5rem] py-[0.2rem] "
               >
                 <Image width={24} height={24} src={icon.chatIcon} alt="" />
-                Comment{" "}
+                <QttCmt postId={item._id} />
+                <span> Comment </span>
               </button>
-              <div className="flex items-center gap-x-[0.5rem]">
+              <div className="flex items-center gap-x-[0.5rem] hover:bg-yellow-300 rounded-xl px-[0.5rem] py-[0.2rem]">
                 <Image width={24} height={24} src={icon.shareIcon} alt="" />
                 <div>Share</div>
               </div>

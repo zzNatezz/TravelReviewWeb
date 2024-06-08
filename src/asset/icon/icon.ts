@@ -18,6 +18,7 @@ import shareIcon from '@/asset/icon/share.svg'
 import closeIcon from '@/asset/icon/closeIcon.svg'
 import settingIcon from '@/asset/icon/settingIcon.svg'
 import loadingIcon from '@/asset/icon/loadingIcon.svg'
+import picturecloseIcon from '@/asset/icon/pictureloseIcon.svg'
 
 const icon : {
     icon_airplane :  string,
@@ -39,6 +40,7 @@ const icon : {
     chatIcon: string,
     closeIcon : string,
     settingIcon: string,
+    picturecloseIcon : string
     loadingIcon : string
 } = {
     icon_airplane,
@@ -60,7 +62,9 @@ const icon : {
     chatIcon,
     closeIcon,
     settingIcon,
+    picturecloseIcon,
     loadingIcon
+    
 }
 
 export default icon
