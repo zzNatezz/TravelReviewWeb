@@ -69,20 +69,19 @@ const PopUpComment = ({ item, index, avatar, isUserId }: IpopUp) => {
   return (
     <div
       key={index}
-      className="flex gap-x-[3rem] items-center justify-around p-[1rem]"
+      className="flex gap-x-[3rem] items-center justify-around p-[1rem] w-[max] h-[max] "
     >
-      <div className="bg-gray-200 p-[1rem] rounded-[2rem] ">
+      <div className="bg-gray-200 p-[1rem] rounded-[2rem] w-[60vh] h-[90vh] ">
         <Image
-          className=""
-          unoptimized
+          className=" h-[90vh] w-[60vh] "
           src={item?.image?.url}
           alt=""
-          width={500}
+          width={950}
           height={300}
           sizes="(max-width: 60rem)"
         />
       </div>
-      <div className="">
+      <div className=" h-[90vh] w-[40vh] ">
         <div className="flex items-center justify-between w-[30rem]">
           <div className="flex gap-x-[1rem]">
             <Image
