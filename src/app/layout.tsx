@@ -3,6 +3,11 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import { Toaster } from "react-hot-toast";
 import StoreProvider from "./StoreProvider";
+// import dynamic from "next/dynamic";
+
+// const ReduxProvider = dynamic(() => import("@/app/StoreProvider"), {
+//   ssr: false,
+// });
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -21,6 +26,7 @@ export default function RootLayout({
       <body className={inter.className}>
         <Toaster position="top-center" />
         <StoreProvider>{children}</StoreProvider>
+        {/* <ReduxProvider>{children}</ReduxProvider> */}
       </body>
     </html>
   );

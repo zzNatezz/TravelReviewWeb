@@ -1,14 +1,12 @@
 import { loginFail, loginSuccess } from '@/components/reduxFeature/authState';
 import { jwtDecode } from 'jwt-decode';
 
-const checkAuth = (dispatch : any) => {
-    const getAcFromLocal = global?.window?.localStorage?.getItem("AC")
-    ? JSON?.parse(localStorage?.getItem("AC") || "")
-    : null;
+const checkAuth = (dispatch : any , user : string) => {
+
     try {
-        const decode = jwtDecode(getAcFromLocal);
+        const decode = jwtDecode(user);
         if (!decode) throw new Error("Invalid token");
-        dispatch(loginSuccess(getAcFromLocal));
+        dispatch(loginSuccess(user));
       } catch (error) {
         dispatch(loginFail());
       }

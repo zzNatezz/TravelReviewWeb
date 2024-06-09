@@ -1,12 +1,13 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import Image from "next/image";
-import { IReview, IuserLogin } from "@/util/allInterface";
-import { useDispatch } from "react-redux";
+import { IuserLogin } from "@/util/allInterface";
+import { useDispatch, useSelector } from "react-redux";
 import { jwtDecode } from "jwt-decode";
 import { ApiPost } from "../../util/apiCall";
 import { postFail } from "../reduxFeature/postState";
 import icon from "@/asset/icon/icon";
+import toast from "react-hot-toast";
 
 const StatusBar = () => {
   const [thinking, setThinking] = useState<string>("");
@@ -16,17 +17,17 @@ const StatusBar = () => {
   const [userId, setUserId] = useState<string>("");
   const [processingImag, setProcessingImag] = useState<any>();
 
+  //Use Selector
+  const user = useSelector((state: any) => state.authState.currentUser); //tested
+
   useEffect(() => {
     try {
-      const user = global?.window?.localStorage?.getItem("AC")
-        ? JSON?.parse(localStorage?.getItem("AC") || "")
-        : null;
-      const decodeUser = jwtDecode<IuserLogin>(user);
+      const decodeUser = jwtDecode<IuserLogin>(user); //<---tested
       if (!decodeUser)
         throw new Error("Please login or reload page, something went wrong");
       setUserId(decodeUser?.user?._id);
       setuserAvatar(decodeUser?.user?.avatar?.url);
-    } catch (error) {
+    } catch (error: any) {
       console.log(error);
     }
   }, [picture]);

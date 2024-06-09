@@ -1,4 +1,7 @@
-import { configureStore } from '@reduxjs/toolkit';
+import { combineReducers, configureStore } from '@reduxjs/toolkit';
+import { persistReducer } from "redux-persist";
+import storage from "redux-persist/lib/storage";
+
 import authReducer from '@/components/reduxFeature/authState';
 import registerReducer from '@/components/reduxFeature/registerRedux'
 import userListReducer from "@/components/reduxFeature/getAlluser"

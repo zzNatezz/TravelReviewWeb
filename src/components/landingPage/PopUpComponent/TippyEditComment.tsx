@@ -3,7 +3,7 @@ import Tippy from "@tippyjs/react/headless";
 import Image from "next/image";
 import icon from "@/asset/icon/icon";
 import React, { useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { jwtDecode } from "jwt-decode";
 import { IEditComment, IuserLogin } from "@/util/allInterface";
 import { setIndex } from "@/components/reduxFeature/handleEdit";
@@ -11,9 +11,7 @@ import { ApiRemoveCmt } from "@/util/apiCall";
 
 const TippyEditComment = ({ item, index, postId }: IEditComment) => {
   const [visible, setVisible] = useState<boolean>(false);
-  const getAcFromLocal = global?.window?.localStorage?.getItem("AC")
-    ? JSON?.parse(localStorage?.getItem("AC") || "")
-    : null;
+  const user = useSelector((state: any) => state.authState.currentUser);
 
   const dispatch = useDispatch();
 
@@ -23,7 +21,7 @@ const TippyEditComment = ({ item, index, postId }: IEditComment) => {
   const handleRemoveComment = (e: any) => {
     e.preventDefault();
     try {
-      const decodeUser = jwtDecode<IuserLogin>(getAcFromLocal);
+      const decodeUser = jwtDecode<IuserLogin>(user);
       if (!decodeUser)
         throw new Error("Please login or reload page, something went wrong");
       const userId = decodeUser?.user?._id;

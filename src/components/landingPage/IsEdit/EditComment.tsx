@@ -12,15 +12,14 @@ const EditComment = ({ item, index, postId }: IEditComment) => {
   const content = item?.comment;
   const [contentEdit, setContentEdit] = useState<string>(content);
   const dispatch = useDispatch();
-  const getAcFromLocal = global?.window?.localStorage?.getItem("AC")
-    ? JSON?.parse(localStorage?.getItem("AC") || "")
-    : null;
+
+  const user = useSelector((state: any) => state.authState.currentUser);
 
   const handleSubmitEdit = (e: any) => {
     e.preventDefault();
     try {
       const content = { content: contentEdit };
-      const decodeUser = jwtDecode<IuserLogin>(getAcFromLocal);
+      const decodeUser = jwtDecode<IuserLogin>(user);
       if (!decodeUser)
         throw new Error("Please login or reload page, something went wrong");
       const userId = decodeUser?.user?._id;
