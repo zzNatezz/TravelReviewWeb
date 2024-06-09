@@ -10,10 +10,8 @@ import CallRefToken from "@/util/mightDeleteLate/CallRefTokekn";
 
 const HeaderHomePage = () => {
   const user = useSelector((state: any) => state.authState.currentUser);
-  console.log("user===>", user);
 
   const isError = useSelector((state: any) => state.authState.error);
-  console.log("isError===>", isError);
 
   return (
     <div className="w-[1380px] flex justify-between pt-[3rem] sticky top-[0] px-[1.5rem] items-center">

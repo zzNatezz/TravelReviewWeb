@@ -12,11 +12,6 @@ import { modifyCmtEnd, modifyCmtStart, modifyCmtSuccess } from "@/components/red
 import { removedCommentEnd, removedCommentStart, removedCommentSuccess } from "@/components/reduxFeature/removeCmtState";
 
 
-const axiosInstance = axios.create({
-    url: "http://localhost:3001",
-    withCredentials: true
-})
-
 export const ApiLogin = async (user:any, dispatch : any, router :any) => {
     dispatch(loginStart());
     try {
@@ -24,10 +19,9 @@ export const ApiLogin = async (user:any, dispatch : any, router :any) => {
         dispatch(loginSuccess(res?.data)); 
         toast.success('Login Successfully');
         router.push('/');
-    } catch (error) {
-        toast.error('Please double check email and password')
+    } catch (error : any) {
+        toast.error(error?.response?.data)
         console.log("login error =>",error);       
-        dispatch(loginFail())
     }
 
 }

@@ -7,8 +7,7 @@ import { modalClose } from "@/components/reduxFeature/modal";
 import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
 import { IpopUp } from "@/util/allInterface";
-import toast from "react-hot-toast";
-import { useRouter } from "next/navigation";
+
 import { ApiPostComment } from "@/util/apiCall";
 import Reloading from "@/components/reloading/Reloading";
 import TippyEditComment from "./TippyEditComment";
@@ -33,7 +32,6 @@ const PopUpCommentWithOutImg = ({ item, index, avatar, isUserId }: IpopUp) => {
   const fetchingCmt = useSelector((state: any) => state.modifyCmt.isFetching);
 
   const dispatch = useDispatch();
-  const router = useRouter();
 
   const handleCloseModal = () => {
     document.body.style.overflow = "auto";

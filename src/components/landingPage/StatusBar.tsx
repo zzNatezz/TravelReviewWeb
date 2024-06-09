@@ -1,7 +1,7 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import Image from "next/image";
-import { IReview, IuserLogin } from "@/util/allInterface";
+import { IuserLogin } from "@/util/allInterface";
 import { useDispatch, useSelector } from "react-redux";
 import { jwtDecode } from "jwt-decode";
 import { ApiPost } from "../../util/apiCall";

@@ -1,7 +1,7 @@
 "use client";
 import React, { useState } from "react";
 import { IEditPostUp, IuserLogin } from "@/util/allInterface";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { unSetIndex } from "@/components/reduxFeature/handleEdit";
 import { jwtDecode } from "jwt-decode";
 import { ApiContentModify } from "@/util/apiCall";
@@ -11,15 +11,13 @@ const EditPost = ({ item, index }: IEditPostUp) => {
   const content = item?.content;
   const [contentEdit, setContentEdit] = useState<string>(content);
   const dispatch = useDispatch();
-  const getAcFromLocal = global?.window?.localStorage?.getItem("AC")
-    ? JSON?.parse(localStorage?.getItem("AC") || "")
-    : null;
+  const user = useSelector((state: any) => state.authState.currentUser);
 
   const handleSubmitEdit = (e: any) => {
     e.preventDefault();
     try {
       const content = { content: contentEdit };
-      const decodeUser = jwtDecode<IuserLogin>(getAcFromLocal);
+      const decodeUser = jwtDecode<IuserLogin>(user);
       if (!decodeUser)
         throw new Error("Please login or reload page, something went wrong");
       const userId = decodeUser?.user?._id;

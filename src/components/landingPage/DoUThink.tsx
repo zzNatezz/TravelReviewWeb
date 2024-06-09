@@ -7,11 +7,14 @@ import Link from "next/link";
 
 const DoUThink = () => {
   const isError = useSelector((state: any) => state.authState.error);
+  const user = useSelector((state: any) => state.authState.currentUser);
+
   const dispatch = useDispatch();
 
   useEffect(() => {
-    checkAuth(dispatch);
-  });
+    checkAuth(dispatch, user);
+  }, [isError]);
+
   return (
     <div
       style={{ position: "-webkit-sticky" }}
