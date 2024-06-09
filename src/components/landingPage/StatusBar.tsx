@@ -28,7 +28,7 @@ const StatusBar = () => {
       setUserId(decodeUser?.user?._id);
       setuserAvatar(decodeUser?.user?.avatar?.url);
     } catch (error: any) {
-      console.log(error);
+      console.log(user);
     }
   }, [picture]);
 

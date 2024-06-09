@@ -1,7 +1,5 @@
 import { combineReducers, configureStore } from '@reduxjs/toolkit';
 import { persistReducer } from "redux-persist";
-import storage from "redux-persist/lib/storage";
-
 import authReducer from '@/components/reduxFeature/authState';
 import registerReducer from '@/components/reduxFeature/registerRedux'
 import userListReducer from "@/components/reduxFeature/getAlluser"
@@ -15,32 +13,62 @@ import modifyContentReducer from '@/components/reduxFeature/modifyContent'
 import commentPostReducer from "@/components/reduxFeature/postCommentState"
 import removeCmtReducer from '@/components/reduxFeature/removeCmtState'
 import modifyCmtReducer from '@/components/reduxFeature/modifyCmt'
+import createWebStorage from 'redux-persist/es/storage/createWebStorage'; 
+import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux';
 
-
-
-
-export const makeStore = () => {
-  return configureStore({
-    reducer : {
-      authState : authReducer,
-      register  : registerReducer,
-      userList : userListReducer,
-      modalState : modalReducer,
-      getPost : getPostReducer,
-      isLoading : loadingReducer,
-      postStt : postReducer,
-      removePost : removePostReducer,
-      isIndex : indexReducer,
-      modifyString : modifyContentReducer,
-      commentPost : commentPostReducer,
-      removeCmt : removeCmtReducer,
-      modifyCmt : modifyCmtReducer
+const createNoopStorage = () => {
+  return {
+    getItem() {
+      return Promise.resolve(null);
     },
-  })
-}
+    setItem(_key: string, value: number) {
+      return Promise.resolve(value);
+    },
+    removeItem() {
+      return Promise.resolve();
+    },
+  };
+};
 
-export type AppStore = ReturnType<typeof makeStore>
-  // Infer the `RootState` and `AppDispatch` types from the store itself
-export type RootState = ReturnType<AppStore['getState']>
-// Inferred type: {posts: PostsState, comments: CommentsState, users: UsersState}
-export type AppDispatch = AppStore['dispatch']
+const storage =
+  typeof window !== "undefined"
+    ? createWebStorage("authLocal ")
+    : createNoopStorage();
+
+const authPersistConfig = {
+  key: "authState",
+  storage: storage,
+  whitelist: ["authState"],
+};
+
+const persistedReducer = persistReducer(authPersistConfig, authReducer);
+
+const rootReducer = combineReducers({
+  authState: persistedReducer,
+  register  : registerReducer,
+  userList : userListReducer,
+  modalState : modalReducer,
+  getPost : getPostReducer,
+  isLoading : loadingReducer,
+  postStt : postReducer,
+  removePost : removePostReducer,
+  isIndex : indexReducer,
+  modifyString : modifyContentReducer,
+  commentPost : commentPostReducer,
+  removeCmt : removeCmtReducer,
+  modifyCmt : modifyCmtReducer
+});
+
+
+export const makeStore =  configureStore({
+    reducer : rootReducer,
+    middleware: (getDefaultMiddleware) =>
+      getDefaultMiddleware({ serializableCheck: false }),
+  })
+
+export type RootState  = ReturnType<typeof makeStore.getState>
+export type AppDispatch = typeof makeStore.dispatch;
+
+export const useAppDispatch = () => useDispatch<AppDispatch>();
+export const useAppSelector: TypedUseSelectorHook<RootState> = useSelector;
+  
