@@ -6,25 +6,61 @@ import { getUserListFail, getUserListStart, getUserListSuccess } from "../compon
 import { getPostFail, getPostStart, getPostSuccess } from "../components/reduxFeature/getPostId";
 import { postFail, postStart, postSuccess } from "../components/reduxFeature/postState";
 import { removedPostFail, removedPostStart, removedPostSuccess } from "../components/reduxFeature/removePost";
-import { loadingEnd, loadingStart } from "../components/reduxFeature/reloadingState";
 import { ModifyContentEnd, ModifyContentStart, ModifyContentSuccess } from "@/components/reduxFeature/modifyContent";
 import { CommentPostFail, CommentPostStart, CommentPostSuccess } from "@/components/reduxFeature/postCommentState";
 import { modifyCmtEnd, modifyCmtStart, modifyCmtSuccess } from "@/components/reduxFeature/modifyCmt";
 import { removedCommentEnd, removedCommentStart, removedCommentSuccess } from "@/components/reduxFeature/removeCmtState";
 
 
+const axiosInstance = axios.create({
+    url: "http://localhost:3001",
+    withCredentials: true
+})
+
 export const ApiLogin = async (user:any, dispatch : any, router :any) => {
     dispatch(loginStart());
     try {
         const res = await axios.post("https://be-travel-review.vercel.app/v1/auth/login", user,{withCredentials : true})
-        dispatch(loginSuccess(res.data));
+        dispatch(loginSuccess(res?.data)); //<---- da test        
         localStorage.setItem('AC', JSON.stringify(res.data) || "");
         toast.success('Login Successfully');
-        router.push('/');
+        router.push('/deletelate');
     } catch (error) {
         toast.error('Please double check email and password')
         console.log(error);       
         dispatch(loginFail())
+    }
+
+}
+
+
+export const ApiRefToken = async() =>{
+    try {
+        const res = await axios.post("https://be-travel-review.vercel.app/v1/auth/refresh",{},{withCredentials : true})
+        console.log(res);
+        toast.success("Authenticated")
+        return res.data
+    } catch (error :any) {
+        toast.error(error?.response?.data)
+        console.log(error);
+        
+    }
+
+}
+
+export const ApiGetAllUser = async(accessToken : any ,dispatch : any , axiosJWT : any) =>{
+    dispatch(getUserListStart());
+    try {
+        const res = await axiosJWT.get('https://be-travel-review.vercel.app/v1/user', {
+            headers : {token : `Bearer ${accessToken}`}
+        });
+        console.log(accessToken);
+        
+        dispatch(getUserListSuccess(res.data))
+    } catch (error) {
+        dispatch(getUserListFail())
+        console.log(error);
+        
     }
 }
 
@@ -43,32 +79,6 @@ export const ApiRegister = async (user : any, dispatch : any, router : any) => {
     }
 }
 
-// export const ApiRefToken = async() =>{
-//     try {
-//         const res = await axios.post("https://be-travel-review.vercel.app/v1/auth/refresh",{withCredentials : true})
-//         console.log(res);
-//         toast.success("Authenticated")
-//         return res.data
-//     } catch (error :any) {
-//         toast.error(error?.response?.data)
-//         console.log(error);
-        
-//     }
-// }
-
-export const ApiGetAllUser = async(accessToken : any ,dispatch : any , axiosJWT : any) =>{
-    dispatch(getUserListStart());
-    try {
-        const res = await axiosJWT.get('https://be-travel-review.vercel.app/v1/user', {
-            headers : {token : `Bearer ${accessToken}`}
-        }); 
-        dispatch(getUserListSuccess(res.data))
-    } catch (error) {
-        dispatch(getUserListFail())
-        console.log(error);
-        
-    }
-}
 
 export const ApiGetpostWithID = async(postId : string , dispatch : any) =>{
     dispatch(getPostStart())

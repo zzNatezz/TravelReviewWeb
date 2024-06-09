@@ -12,6 +12,12 @@ export   interface IuserLogin {
     };
   }
 
+  
+export interface IFormLogin {
+  email: string;
+  password: string;
+}
+
   export interface InewAccessToken{
     new_access_token : string
   }

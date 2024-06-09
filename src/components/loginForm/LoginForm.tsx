@@ -8,11 +8,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { ApiLogin } from "../../util/apiCall";
 import { useRouter } from "next/navigation";
 import Reloading from "../reloading/Reloading";
-
-interface IFormLogin {
-  email: string;
-  password: string;
-}
+import { IFormLogin } from "@/util/allInterface";
 
 const LoginForm = () => {
   const [showPass, setShowPass] = useState<boolean>(false);
