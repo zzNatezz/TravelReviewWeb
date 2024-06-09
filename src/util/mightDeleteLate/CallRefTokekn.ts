@@ -17,13 +17,11 @@ function CallRefToken() {
       let date: Date = new Date();
       const decoded_user = jwtDecode<JwtPayload>(user);
       if (decoded_user?.exp && decoded_user.exp < date.getTime() / 1000) {
-        const data: any = await ApiRefToken(); //<-- API refersh token đang bị lỗi
+        const data: any = await ApiRefToken();
 
         const decode_data = jwtDecode<JwtPayload>(data?.data?.new_access_token);
-        console.log("decode_data =>", decode_data);
 
         const refreshToken: any = { ...decoded_user, ...decode_data };
-        console.log(" refreshToken = >", refreshToken);
 
         dispatch(loginSuccess(refreshToken));
         config.headers["token"] = "Bearer" + data?.data?.new_access_token;

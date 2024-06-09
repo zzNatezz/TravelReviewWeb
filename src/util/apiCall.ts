@@ -21,13 +21,12 @@ export const ApiLogin = async (user:any, dispatch : any, router :any) => {
     dispatch(loginStart());
     try {
         const res = await axios.post("https://be-travel-review.vercel.app/v1/auth/login", user,{withCredentials : true})
-        dispatch(loginSuccess(res?.data)); //<---- da test        
-        localStorage.setItem('AC', JSON.stringify(res.data) || "");
+        dispatch(loginSuccess(res?.data)); 
         toast.success('Login Successfully');
-        router.push('/deletelate');
+        router.push('/');
     } catch (error) {
         toast.error('Please double check email and password')
-        console.log(error);       
+        console.log("login error =>",error);       
         dispatch(loginFail())
     }
 
@@ -37,7 +36,6 @@ export const ApiLogin = async (user:any, dispatch : any, router :any) => {
 export const ApiRefToken = async() =>{
     try {
         const res = await axios.post("https://be-travel-review.vercel.app/v1/auth/refresh",{},{withCredentials : true})
-        console.log(res);
         toast.success("Authenticated")
         return res.data
     } catch (error :any) {
@@ -53,9 +51,7 @@ export const ApiGetAllUser = async(accessToken : any ,dispatch : any , axiosJWT 
     try {
         const res = await axiosJWT.get('https://be-travel-review.vercel.app/v1/user', {
             headers : {token : `Bearer ${accessToken}`}
-        });
-        console.log(accessToken);
-        
+        });        
         dispatch(getUserListSuccess(res.data))
     } catch (error) {
         dispatch(getUserListFail())

@@ -34,6 +34,8 @@ const Allpost = () => {
   );
   const isIndex = useSelector((state: any) => state.isIndex.index);
 
+  const user = useSelector((state: any) => state.authState.currentUser);
+
   const dispatch = useDispatch();
   const router = useRouter();
 
@@ -65,10 +67,6 @@ const Allpost = () => {
         );
         setAllPost(data.data);
         dispatch(loadingEnd());
-
-        const user = global?.window?.localStorage?.getItem("AC")
-          ? JSON?.parse(localStorage?.getItem("AC") || "")
-          : null;
 
         const decodeUser = jwtDecode<IuserJWTPayLoad>(user);
         setUserId(decodeUser?.user?._id);

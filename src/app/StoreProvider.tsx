@@ -2,6 +2,9 @@
 import { useRef } from "react";
 import { Provider } from "react-redux";
 import { makeStore, AppStore } from "../redux/store";
+// import { persistStore } from "redux-persist";
+
+// persistStore(makeStore());
 
 export default function StoreProvider({
   children,
