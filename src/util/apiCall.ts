@@ -21,7 +21,8 @@ export const ApiLogin = async (user:any, dispatch : any, router :any) => {
         router.push('/');
     } catch (error : any) {
         toast.error(error?.response?.data)
-        console.log("login error =>",error);       
+        console.log("login error =>",error);
+        dispatch(loginFail())       
     }
 
 }
