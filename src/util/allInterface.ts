@@ -1,3 +1,4 @@
+import axios from "axios";
 import { JwtPayload } from "jwt-decode";
 import { StaticImageData } from "next/image";
 
@@ -58,3 +59,7 @@ export interface IFormLogin {
     item : any,
     index ?: number,
   }
+
+  export let axiosJWT = axios.create({
+    withCredentials: true,
+  });

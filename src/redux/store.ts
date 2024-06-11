@@ -32,7 +32,7 @@ const createNoopStorage = () => {
 
 const storage =
   typeof window !== "undefined"
-    ? createWebStorage("authLocal ")
+    ? createWebStorage("authLocal")
     : createNoopStorage();
 
 const authPersistConfig = {

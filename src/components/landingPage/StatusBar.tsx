@@ -1,13 +1,12 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import Image from "next/image";
-import { IuserLogin } from "@/util/allInterface";
+import { IuserLogin, axiosJWT } from "@/util/allInterface";
 import { useDispatch, useSelector } from "react-redux";
 import { jwtDecode } from "jwt-decode";
 import { ApiPost } from "../../util/apiCall";
 import { postFail } from "../reduxFeature/postState";
 import icon from "@/asset/icon/icon";
-import toast from "react-hot-toast";
 
 const StatusBar = () => {
   const [thinking, setThinking] = useState<string>("");
@@ -18,11 +17,11 @@ const StatusBar = () => {
   const [processingImag, setProcessingImag] = useState<any>();
 
   //Use Selector
-  const user = useSelector((state: any) => state.authState.currentUser); //tested
-
+  const user = useSelector((state: any) => state.authState.currentUser);
   useEffect(() => {
     try {
-      const decodeUser = jwtDecode<IuserLogin>(user); //<---tested
+      const decodeUser = jwtDecode<IuserLogin>(user);
+
       if (!decodeUser)
         throw new Error("Please login or reload page, something went wrong");
       setUserId(decodeUser?.user?._id);
@@ -40,7 +39,7 @@ const StatusBar = () => {
       const form = new FormData();
       form.append("content", thinking);
       form.append("file", processingImag);
-      ApiPost(userId, form, dispatch);
+      ApiPost(user, userId, form, dispatch, axiosJWT);
       setThinking("");
       setPicture(null);
     } catch (error) {
