@@ -17,6 +17,7 @@ import { IuserJWTPayLoad } from "@/util/allInterface";
 import { unSetIndex } from "../reduxFeature/handleEdit";
 import { useRouter } from "next/navigation";
 import QttCmt from "./QttCmt";
+import ReactionStt from "./ReactionStt";
 
 const Allpost = () => {
   const [allPost, setAllPost] = useState<any[]>([]);
@@ -33,7 +34,6 @@ const Allpost = () => {
     (state: any) => state.modifyString.isFetching
   );
   const isIndex = useSelector((state: any) => state.isIndex.index);
-
   const user = useSelector((state: any) => state.authState.currentUser);
 
   const dispatch = useDispatch();
@@ -67,7 +67,6 @@ const Allpost = () => {
         );
         setAllPost(data.data);
         dispatch(loadingEnd());
-
         const decodeUser = jwtDecode<IuserJWTPayLoad>(user);
         setUserId(decodeUser?.user?._id);
         setUserAvatar(decodeUser?.user?.avatar.url);
@@ -76,6 +75,7 @@ const Allpost = () => {
       }
     };
     fetchData();
+
     document.body.style.overflowX = "hidden";
   }, [isFetchingPost, FetchingRemovedPost, isFetchingEdit]);
 
@@ -146,10 +146,7 @@ const Allpost = () => {
             </div>
             <hr className="mt-[2rem]" />
             <div className="mt-[1rem] flex items-center justify-between">
-              <div className="flex items-center gap-x-[0.5rem] hover:bg-rose-400 rounded-xl px-[0.4rem] ">
-                <Image width={24} height={24} src={icon.heatUnactive} alt="" />
-                <div>Reaction</div>
-              </div>
+              <ReactionStt item={item} userId={userId} />
               <button
                 type="button"
                 onClick={() => handleOpenModal(index)}

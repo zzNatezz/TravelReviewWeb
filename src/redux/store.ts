@@ -15,6 +15,7 @@ import removeCmtReducer from '@/components/reduxFeature/removeCmtState'
 import modifyCmtReducer from '@/components/reduxFeature/modifyCmt'
 import createWebStorage from 'redux-persist/es/storage/createWebStorage'; 
 import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux';
+import likePostProducer from '@/components/reduxFeature/isLike'
 
 const createNoopStorage = () => {
   return {
@@ -56,7 +57,8 @@ const rootReducer = combineReducers({
   modifyString : modifyContentReducer,
   commentPost : commentPostReducer,
   removeCmt : removeCmtReducer,
-  modifyCmt : modifyCmtReducer
+  modifyCmt : modifyCmtReducer,
+  listLike : likePostProducer,
 });
 
 

@@ -10,17 +10,18 @@ import { ModifyContentEnd, ModifyContentStart, ModifyContentSuccess } from "@/co
 import { CommentPostFail, CommentPostStart, CommentPostSuccess } from "@/components/reduxFeature/postCommentState";
 import { modifyCmtEnd, modifyCmtStart, modifyCmtSuccess } from "@/components/reduxFeature/modifyCmt";
 import { removedCommentEnd, removedCommentStart, removedCommentSuccess } from "@/components/reduxFeature/removeCmtState";
-
+import { likeEnd, likeError, likeFinish, likeStart } from "@/components/reduxFeature/isLike";
+import { useSelector } from "react-redux";
 
 
 export const ApiLogin = async (user:any, dispatch : any, router :any) => {
     dispatch(loginStart());
     try {
-        const res = await axios.post("http://localhost:3001/v1/auth/login", user,{withCredentials : true})
+        const res = await axios.post("https://be-travel-review.vercel.app/v1/auth/login", user,{withCredentials : true})
         dispatch(loginSuccess(res?.data)); 
         toast.success('Login Successfully');
         localStorage.setItem('gbl_au_tk', JSON.stringify(res?.data))
-        router.push('/delateLate');
+        router.push('/');
     } catch (error : any) {
         toast.error(error?.response?.data)
         console.log("login error =>",error);
@@ -32,7 +33,7 @@ export const ApiLogin = async (user:any, dispatch : any, router :any) => {
 
 export const ApiRefToken = async() =>{
     try {
-        const res = await axios.post("http://localhost:3001/v1/auth/refresh",{},{withCredentials : true})
+        const res = await axios.post("https://be-travel-review.vercel.app/v1/auth/refresh",{},{withCredentials : true})
         toast.success("Authenticated");
         localStorage.setItem('gbl_au_tk', JSON.stringify(res?.data))        
         return res?.data?.new_access_token
@@ -45,7 +46,7 @@ export const ApiRefToken = async() =>{
 export const ApiGetAllUser = async(accessToken : any ,dispatch : any , axiosJWT : any) =>{
     dispatch(getUserListStart());
     try {
-        const res = await axiosJWT.get('http://localhost:3001/v1/user', {
+        const res = await axiosJWT.get('https://be-travel-review.vercel.app/v1/user', {
             headers : {token : `Bearer ${accessToken}`}
         });
         console.log(res?.data);
@@ -167,5 +168,25 @@ export const ApiRemoveCmt = async(userId : string, postId : string |null , cmtId
     } catch (error : any) {
         toast.error(error?.response?.data);
         dispatch(removedCommentEnd());
+    }
+}
+
+export const ApiLikePost = async (userId : string, postId : string, dispatch : any) => {
+    dispatch(likeStart())
+    try {
+        const res = await axios.put(`https://be-travel-review.vercel.app/v1/like/${userId}/${postId}`)
+        toast.success(res?.data)
+        dispatch(likeEnd())
+    } catch (error : any) {
+        toast.error(error?.response?.data)
+        dispatch(likeError())
+    }
+}
+
+export const  LikedPost = async (userId : string, dispatch : any) => {
+    try {
+        const res = await axios.get(`https://be-travel-review.vercel.app/v1/like/${userId}`)        
+        dispatch(likeFinish(res?.data[0]?.listLike))
+    } catch (error : any) {
     }
 }
