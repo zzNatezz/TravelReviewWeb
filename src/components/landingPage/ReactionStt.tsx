@@ -28,7 +28,7 @@ const ReactionStt = ({ item, userId }: IReactStt) => {
   return (
     <div
       onClick={() => handleReact()}
-      className="flex items-center gap-x-[0.5rem] hover:bg-rose-400 rounded-xl px-[0.4rem] "
+      className=" w-[7rem] flex items-center gap-x-[0.5rem] hover:bg-rose-400 rounded-xl px-[0.4rem] "
     >
       {all_like?.includes(item?._id) ? (
         <>

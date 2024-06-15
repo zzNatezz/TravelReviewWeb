@@ -175,7 +175,6 @@ export const ApiLikePost = async (userId : string, postId : string, dispatch : a
     dispatch(likeStart())
     try {
         const res = await axios.put(`https://be-travel-review.vercel.app/v1/like/${userId}/${postId}`)
-        toast.success(res?.data)
         dispatch(likeEnd())
     } catch (error : any) {
         toast.error(error?.response?.data)

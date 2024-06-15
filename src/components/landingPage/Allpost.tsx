@@ -66,10 +66,15 @@ const Allpost = () => {
           "https://be-travel-review.vercel.app/v1/content"
         );
         setAllPost(data.data);
-        dispatch(loadingEnd());
-        const decodeUser = jwtDecode<IuserJWTPayLoad>(user);
+        const getAcFromLocal = global?.window?.localStorage?.getItem(
+          "gbl_au_tk"
+        )
+          ? JSON?.parse(localStorage?.getItem("gbl_au_tk") || "")
+          : null;
+        const decodeUser = jwtDecode<IuserJWTPayLoad>(getAcFromLocal);
         setUserId(decodeUser?.user?._id);
         setUserAvatar(decodeUser?.user?.avatar.url);
+        dispatch(loadingEnd());
       } catch (error) {
         dispatch(loadingEnd());
       }

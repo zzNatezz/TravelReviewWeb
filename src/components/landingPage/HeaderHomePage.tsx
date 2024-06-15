@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import icon from "@/asset/icon/icon";
 import Link from "next/link";
@@ -8,9 +8,22 @@ import { jwtDecode } from "jwt-decode";
 import { IuserLogin } from "@/util/allInterface";
 
 const HeaderHomePage = () => {
-  const user = useSelector((state: any) => state.authState.currentUser);
+  const [userId, setUserId] = useState<string>("");
 
-  const isError = useSelector((state: any) => state.authState.error);
+  const [userName, setUserName] = useState<string>("");
+
+  useEffect(() => {
+    try {
+      const getAcFromLocal = global?.window?.localStorage?.getItem("gbl_au_tk")
+        ? JSON?.parse(localStorage?.getItem("gbl_au_tk") || "")
+        : null;
+      const decodeUser = jwtDecode<IuserLogin>(getAcFromLocal);
+      setUserName(decodeUser?.user?.userName);
+      setUserId(decodeUser?.user?._id);
+    } catch (error) {
+      console.log("userName is invalid");
+    }
+  }, [userId]);
 
   return (
     <div className="w-[1380px] flex justify-between pt-[3rem] sticky top-[0] px-[1.5rem] items-center">
@@ -35,7 +48,7 @@ const HeaderHomePage = () => {
           <div className="text-white">Find Stay</div>
         </div>
       </div>
-      {!user || isError ? (
+      {!userId ? (
         <button
           style={{ position: "-webkit-sticky" }}
           className="sticky top-[0] text-cyan-300 w-[max] px-[1rem] bg-slate-300 rounded-xl font-bold"
@@ -52,7 +65,7 @@ const HeaderHomePage = () => {
           <button className="font-Roboto text-white px-[1rem] py-[0.5rem] bg-slate-300 rounded-xl ">
             <Link href="">
               Hi, {""}
-              {jwtDecode<IuserLogin>(user)?.user?.userName}
+              {userName}
             </Link>
           </button>
           <button className="text-white outline outline-1 font-Roboto bg-rose-500 text-[1.2rem] rounded-[0.5rem] px-[0.4rem] shadow-sm">
