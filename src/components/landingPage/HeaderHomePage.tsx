@@ -3,16 +3,28 @@ import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import icon from "@/asset/icon/icon";
 import Link from "next/link";
-import { useSelector } from "react-redux";
 import { jwtDecode } from "jwt-decode";
 import { IuserLogin } from "@/util/allInterface";
+import { ApiLogOut } from "@/util/apiCall";
+import { useDispatch, useSelector } from "react-redux";
+import { useRouter } from "next/navigation";
+import { loadingEnd, loadingStart } from "../reduxFeature/reloadingState";
 
 const HeaderHomePage = () => {
   const [userId, setUserId] = useState<string>("");
 
   const [userName, setUserName] = useState<string>("");
 
+  const dispatch = useDispatch();
+  const router = useRouter();
+
+  const handleLogOut = (e: any) => {
+    e.preventDefault();
+    ApiLogOut(dispatch, router);
+  };
+
   useEffect(() => {
+    dispatch(loadingStart());
     try {
       const getAcFromLocal = global?.window?.localStorage?.getItem("gbl_au_tk")
         ? JSON?.parse(localStorage?.getItem("gbl_au_tk") || "")
@@ -20,8 +32,10 @@ const HeaderHomePage = () => {
       const decodeUser = jwtDecode<IuserLogin>(getAcFromLocal);
       setUserName(decodeUser?.user?.userName);
       setUserId(decodeUser?.user?._id);
+      dispatch(loadingEnd());
     } catch (error) {
       console.log("userName is invalid");
+      dispatch(loadingEnd());
     }
   }, [userId]);
 
@@ -68,7 +82,10 @@ const HeaderHomePage = () => {
               {userName}
             </Link>
           </button>
-          <button className="text-white outline outline-1 font-Roboto bg-rose-500 text-[1.2rem] rounded-[0.5rem] px-[0.4rem] shadow-sm">
+          <button
+            onClick={(e) => handleLogOut(e)}
+            className="text-white outline outline-1 font-Roboto bg-rose-500 text-[1.2rem] rounded-[0.5rem] px-[0.4rem] shadow-sm"
+          >
             Log Out
           </button>
         </div>

@@ -1,9 +1,9 @@
 import axios from "axios"
 
-const axiosInstance = axios.create({
+const axiosInsURL = {
     url: "https://be-travel-review.vercel.app",
     withCredentials: true
-})
+}
 
 
-export default axiosInstance
+export default axiosInsURL
