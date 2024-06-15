@@ -59,7 +59,6 @@ const PopUpComment = ({ item, index, avatar, isUserId }: IpopUp) => {
         setLoading(false);
         setPostId(item._id);
       } catch (error) {
-        console.log(error);
         setLoading(false);
       }
     };
@@ -69,20 +68,20 @@ const PopUpComment = ({ item, index, avatar, isUserId }: IpopUp) => {
   return (
     <div
       key={index}
-      className="flex gap-x-[3rem] items-center justify-around p-[1rem] w-[max] h-[max] "
+      className=" bg-gray-900 flex gap-x-[3rem] items-center justify-around"
     >
-      <div className="bg-gray-200 p-[1rem] rounded-[2rem] w-[60vh] h-[90vh] ">
+      <div className="grid place-items-center rounded-[2rem] w-[70%] ">
         <Image
-          className=" h-[90vh] w-[60vh] "
           src={item?.image?.url}
           alt=""
-          width={950}
-          height={300}
-          sizes="(max-width: 60rem)"
+          content=""
+          width={item?.image?.height > 800 ? 800 : item?.image?.width}
+          height={item?.image?.height > 800 ? 800 : item?.image?.height}
+          sizes="(min-width: 60rem)"
         />
       </div>
-      <div className=" h-[90vh] w-[40vh] ">
-        <div className="flex items-center justify-between w-[30rem]">
+      <div className=" bg-white p-[1rem] w-[30%] h-[90vh] rounded-2xl ">
+        <div className="flex items-center justify-between">
           <div className="flex gap-x-[1rem]">
             <Image
               style={{
@@ -109,6 +108,8 @@ const PopUpComment = ({ item, index, avatar, isUserId }: IpopUp) => {
               <div>{timeFormat(item?.createAt)}</div>
             </div>
           </div>
+
+          {/* //LoseIcon */}
           <Image
             onClick={() => handleCloseModal()}
             width={40}
@@ -137,14 +138,14 @@ const PopUpComment = ({ item, index, avatar, isUserId }: IpopUp) => {
               onChange={(e) => setComment(e.target.value)}
             />
             <button
-              className="h-[3rem] w-[5rem] rounded-[10px] text-white bg-cyan-300"
+              className="h-[3rem] w-[5rem] rounded-[10px] text-white bg-cyan-300 px-[0.2rem]  "
               type="submit"
             >
               Comment
             </button>
           </div>
         </form>
-        <div className="border-t-2 my-[2rem] pt-[2rem] w-[30rem] flex flex-col">
+        <div className="border-t-2 my-[2rem] pt-[2rem] flex flex-col">
           {(isCommentFetching ||
             loading ||
             deleteCmtFetching ||
@@ -155,17 +156,17 @@ const PopUpComment = ({ item, index, avatar, isUserId }: IpopUp) => {
               className="bg-white p-[1rem] flex items-center justify-between gap-x-[0.5rem]"
             >
               <div className="flex items-center gap-x-[1rem]">
-                <div className="flex flex-col items-center gap-x-[0.5rem] ">
-                  <div className="w-max">{item?.userId?.userName}</div>
+                <div className="flex flex-col items-center ">
+                  <div className="w-10rem">{item?.userId?.userName}</div>
                   <Image
-                    style={{ width: "50px", height: "50px" }}
-                    width={200}
-                    height={200}
-                    unoptimized
+                    // style={{ width: "50px", height: "50px" }}
+                    className="min-w-20"
+                    width={50}
+                    height={50}
                     src={
                       item?.userId.avatar.url === ""
                         ? icon.defaultAvatar
-                        : item?.userId.avatar.ur
+                        : item?.userId.avatar.url
                     }
                     alt=""
                   />

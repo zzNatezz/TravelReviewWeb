@@ -21,7 +21,7 @@ const DoUThink = () => {
       const decodeUser = jwtDecode<IuserJWTPayLoad>(getAcFromLocal);
       setUserId(decodeUser?.user?._id);
     } catch (error) {}
-  });
+  }, []);
 
   return (
     <div

@@ -7,7 +7,7 @@ import Allpost from "../landingPage/Allpost";
 
 const FirstPage = () => {
   return (
-    <div className="flex flex-col items-center w-screen h-[100%]">
+    <div className="flex flex-col items-center w-screen h-[ ]">
       <HeaderHomePage />
       <Image className="absolute pt-[3rem]" src={icon.Logo} alt="golobe_logo" />
       <div className="absolute z-[-1]">

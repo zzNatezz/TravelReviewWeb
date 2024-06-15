@@ -192,17 +192,13 @@ export const  LikedPost = async (userId : string, dispatch : any) => {
 }
 
 export const ApiLogOut = async (dispatch : any , router : any) => {
-    dispatch(loadingStart());
     try {
         const res = await axios.post('https://be-travel-review.vercel.app/v1/auth/logout',{})
         localStorage.removeItem('gbl_au_tk')
         router.push('/login');
-        dispatch(loadingEnd())
         dispatch(loginFail())
         toast.success(res?.data)
     } catch (error) {
         console.log(error);
-        
-        dispatch(loadingEnd())
-    }
+   }
 }

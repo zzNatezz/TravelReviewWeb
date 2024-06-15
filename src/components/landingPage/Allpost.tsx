@@ -23,9 +23,9 @@ const Allpost = () => {
   const [allPost, setAllPost] = useState<any[]>([]);
   const [userId, setUserId] = useState<string>("");
   const [userAvatar, setUserAvatar] = useState<string>("");
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const isPopUp = useSelector((state: any) => state.modalState.isOpen);
-  const isLoading = useSelector((state: any) => state.isLoading.isLoading);
   const isFetchingPost = useSelector((state: any) => state.postStt.isFetching);
   const FetchingRemovedPost = useSelector(
     (state: any) => state.removePost.isFetching
@@ -59,9 +59,9 @@ const Allpost = () => {
   };
 
   useEffect(() => {
+    setIsLoading(true);
     const fetchData = async () => {
       try {
-        dispatch(loadingStart());
         const data: any = await axios.get(
           "https://be-travel-review.vercel.app/v1/content"
         );
@@ -74,13 +74,12 @@ const Allpost = () => {
         const decodeUser = jwtDecode<IuserJWTPayLoad>(getAcFromLocal);
         setUserId(decodeUser?.user?._id);
         setUserAvatar(decodeUser?.user?.avatar.url);
-        dispatch(loadingEnd());
+        setIsLoading(false);
       } catch (error) {
-        dispatch(loadingEnd());
+        setIsLoading(false);
       }
     };
     fetchData();
-
     document.body.style.overflowX = "hidden";
   }, [isFetchingPost, FetchingRemovedPost, isFetchingEdit]);
 
@@ -138,12 +137,12 @@ const Allpost = () => {
               <div className="grid place-items-center">
                 {item?.image?.url ? (
                   <Image
-                    style={{ width: "500px", height: "300" }}
+                    loading="lazy"
                     unoptimized
                     src={item?.image?.url}
                     alt=""
-                    width={950}
-                    height={300}
+                    width={item?.image?.width ? item?.image?.width : 500}
+                    height={item?.image?.height ? item?.image?.height : 500}
                     sizes="(max-width: 56.25rem)"
                   />
                 ) : null}
@@ -188,7 +187,7 @@ const Allpost = () => {
               ) : (
                 <div
                   onClick={(e) => handleClickAfterModalOpen(e)}
-                  className="fixed left-[50%] top-[50%] translate-x-[-50%] translate-y-[-50%] bg-white w-[80rem] rounded-[20px] h-[max] z-[100]"
+                  className="fixed left-[50%] top-[50%] translate-x-[-50%] translate-y-[-50%] bg-white w-[90%] rounded-[20px] h-[max] z-[100]"
                 >
                   <PopUpComment
                     item={item}

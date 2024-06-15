@@ -24,7 +24,6 @@ const HeaderHomePage = () => {
   };
 
   useEffect(() => {
-    dispatch(loadingStart());
     try {
       const getAcFromLocal = global?.window?.localStorage?.getItem("gbl_au_tk")
         ? JSON?.parse(localStorage?.getItem("gbl_au_tk") || "")
@@ -32,16 +31,12 @@ const HeaderHomePage = () => {
       const decodeUser = jwtDecode<IuserLogin>(getAcFromLocal);
       setUserName(decodeUser?.user?.userName);
       setUserId(decodeUser?.user?._id);
-      dispatch(loadingEnd());
-    } catch (error) {
-      console.log("userName is invalid");
-      dispatch(loadingEnd());
-    }
-  }, [userId]);
+    } catch (error) {}
+  }, []);
 
   return (
     <div className="w-[1380px] flex justify-between pt-[3rem] sticky top-[0] px-[1.5rem] items-center">
-      <div className="w-[30vh] flex items-center flex-col gap-[20px]">
+      <div className=" flex items-center flex-col gap-[20px]">
         <div className="flex item-center gap-[5px] px-[1rem] rounded-xl w-[max] bg-gray-200 ">
           <Image
             width="24"
