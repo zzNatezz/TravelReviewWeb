@@ -5,6 +5,8 @@ import Image from "next/image";
 import { IEditPostUp } from "@/util/allInterface";
 import { useDispatch, useSelector } from "react-redux";
 import { ApiLikePost, LikedPost } from "@/util/apiCall";
+import { useRouter } from "next/navigation";
+import toast from "react-hot-toast";
 
 interface IReactStt extends IEditPostUp {
   userId: string;
@@ -13,9 +15,15 @@ const ReactionStt = ({ item, userId }: IReactStt) => {
   const all_like = useSelector((state: any) => state.listLike.listLike);
 
   const dispatch = useDispatch();
+  const router = useRouter();
 
   const handleReact = () => {
-    ApiLikePost(userId, item?._id, dispatch);
+    if (!userId) {
+      router.push("/login");
+      toast.error("Please login to react the post !!!");
+    } else {
+      ApiLikePost(userId, item?._id, dispatch);
+    }
   };
   const likeFetching = useSelector(
     (state: any) => state.listLike.isLikeFetching
