@@ -1,14 +1,19 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { searchEnd } from "../reduxFeature/openSearch";
 import icon from "@/asset/icon/icon";
 import Image from "next/image";
 import useDebounce from "@/util/useDebounce";
+import { Api_Q_user } from "@/util/apiCall";
+import Reloading from "../reloading/Reloading";
 
 const Search = () => {
   const [searchValue, setSearchValue] = useState<string>("");
-  const [showQuery, setShowQuery] = useState<any[]>();
+
+  const findedUser = useSelector((state: any) => state.Quser.listUser);
+  const loading = useSelector((state: any) => state.Quser.isFetching);
+
   const dispatch = useDispatch();
   const handleClickAfterModalOpen = (e: any) => {
     e.stopPropagation();
@@ -17,7 +22,7 @@ const Search = () => {
   const valueDelay = useDebounce(searchValue, 2000);
 
   useEffect(() => {
-    console.log(searchValue);
+    Api_Q_user(dispatch, valueDelay);
   }, [valueDelay]);
 
   return (
@@ -48,7 +53,37 @@ const Search = () => {
               onChange={(e) => setSearchValue(e.target.value)}
             />
           </label>
-          <div>{searchValue && searchValue}</div>
+        </div>
+        <div className="mt-[1rem] ">
+          {loading && <Reloading size={50} className=" mx-auto" />}
+          <div className="flex flex-col items-start px-[0.5rem] gap-y-[1rem] ">
+            {!findedUser && (
+              <div> No user use this name, please try other </div>
+            )}
+            {findedUser &&
+              findedUser.map((item: any, index: number) => (
+                <div
+                  className=" flex flex-row gap-y-[2rem] items-center justify-center gap-y-[1rem] "
+                  key={index}
+                >
+                  <Image
+                    className="rounded-[50%] p-[0.2rem] w-[10vh] h-[10vh] "
+                    width={100}
+                    height={100}
+                    src={
+                      item.avatar.url === ""
+                        ? icon.defaultAvatar
+                        : item.avatar.url
+                    }
+                    alt=""
+                  />
+
+                  <div className="bg-gray-300 w-[80vh] rounded-xl pl-[1rem] py-[1rem] ">
+                    {item.userName}
+                  </div>
+                </div>
+              ))}
+          </div>
         </div>
       </div>
     </div>

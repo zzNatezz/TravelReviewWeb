@@ -13,6 +13,7 @@ import { removedCommentEnd, removedCommentStart, removedCommentSuccess } from "@
 import { likeEnd, likeError, likeFinish, likeStart } from "@/components/reduxFeature/isLike";
 import { useSelector } from "react-redux";
 import { loadingEnd, loadingStart } from "@/components/reduxFeature/reloadingState";
+import { QuserFail, QuserStart, QuserSuccess } from "@/components/reduxFeature/qUser";
 
 
 export const ApiLogin = async (user:any, dispatch : any, router :any) => {
@@ -200,5 +201,15 @@ export const ApiLogOut = async (dispatch : any , router : any) => {
         toast.success(res?.data)
     } catch (error) {
         console.log(error);
+   }
+}
+export const Api_Q_user = async (dispatch : any, keyword : string) => {
+    dispatch(QuserStart())
+    try {
+        const res = await axios.get(`https://be-travel-review.vercel.app/v1/user/query/${keyword}`)
+        dispatch(QuserSuccess(res?.data))
+    } catch (error) {
+        console.log(error);
+        dispatch(QuserFail())
    }
 }
