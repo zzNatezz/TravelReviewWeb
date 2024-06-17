@@ -63,3 +63,8 @@ export interface IFormLogin {
   export let axiosJWT = axios.create({
     withCredentials: true,
   });
+
+  export interface IDebounce {
+    cb : any,
+    delay : Number
+  }

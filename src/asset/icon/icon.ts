@@ -19,6 +19,7 @@ import closeIcon from '@/asset/icon/closeIcon.svg'
 import settingIcon from '@/asset/icon/settingIcon.svg'
 import loadingIcon from '@/asset/icon/loadingIcon.svg'
 import picturecloseIcon from '@/asset/icon/pictureloseIcon.svg'
+import searchIcon from "@/asset/icon/serchIcon.svg"
 
 const icon : {
     icon_airplane :  string,
@@ -41,7 +42,8 @@ const icon : {
     closeIcon : string,
     settingIcon: string,
     picturecloseIcon : string
-    loadingIcon : string
+    loadingIcon : string,
+    searchIcon : string
 } = {
     icon_airplane,
     Logo,
@@ -63,7 +65,8 @@ const icon : {
     closeIcon,
     settingIcon,
     picturecloseIcon,
-    loadingIcon
+    loadingIcon,
+    searchIcon
     
 }
 

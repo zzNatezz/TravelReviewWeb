@@ -6,9 +6,10 @@ import Link from "next/link";
 import { jwtDecode } from "jwt-decode";
 import { IuserLogin } from "@/util/allInterface";
 import { ApiLogOut } from "@/util/apiCall";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { useRouter } from "next/navigation";
-import { loadingEnd, loadingStart } from "../reduxFeature/reloadingState";
+
+import { searchStart } from "../reduxFeature/openSearch";
 
 const HeaderHomePage = () => {
   const [userId, setUserId] = useState<string>("");
@@ -21,6 +22,12 @@ const HeaderHomePage = () => {
   const handleLogOut = (e: any) => {
     e.preventDefault();
     ApiLogOut(dispatch, router);
+  };
+
+  const handleFind = (e: any) => {
+    if (!userId) {
+      router.push("/login");
+    } else dispatch(searchStart());
   };
 
   useEffect(() => {
@@ -36,8 +43,8 @@ const HeaderHomePage = () => {
 
   return (
     <div className="w-[1380px] flex justify-between pt-[3rem] sticky top-[0] px-[1.5rem] items-center">
-      <div className=" flex items-center flex-col gap-[20px]">
-        <div className="flex item-center gap-[5px] px-[1rem] rounded-xl w-[max] bg-gray-200 ">
+      <div className=" flex items-start flex-col gap-[20px]">
+        <div className="flex item-center gap-[5px] px-[1rem] py-[0.1rem] rounded-xl w-[max] bg-gray-200 ">
           <Image
             width="24"
             height="24"
@@ -46,7 +53,7 @@ const HeaderHomePage = () => {
           />
           <div className="text-white">Find Flight</div>
         </div>
-        <div className="flex item-center gap-[5px] px-[1rem] rounded-xl w-[max] bg-gray-200 ">
+        <div className="flex item-center gap-[5px] px-[1rem] py-[0.1rem] rounded-xl w-[max] bg-gray-200 ">
           <Image
             className="filter invert-[1]"
             width="24"
@@ -55,6 +62,18 @@ const HeaderHomePage = () => {
             alt="icon_airplane"
           />
           <div className="text-white">Find Stay</div>
+        </div>
+        <div className="flex item-center gap-[5px] px-[1rem] py-[0.2rem] rounded-xl w-[max] bg-gray-200 ">
+          <Image
+            className=""
+            width="24"
+            height="24"
+            src={icon.searchIcon}
+            alt="searchIcon"
+          />
+          <div onClick={(e) => handleFind(e)} className="text-white">
+            Find ?
+          </div>
         </div>
       </div>
       {!userId ? (

@@ -18,6 +18,7 @@ import { unSetIndex } from "../reduxFeature/handleEdit";
 import { useRouter } from "next/navigation";
 import QttCmt from "./QttCmt";
 import ReactionStt from "./ReactionStt";
+import Search from "../search/Search";
 
 const Allpost = () => {
   const [allPost, setAllPost] = useState<any[]>([]);
@@ -34,7 +35,7 @@ const Allpost = () => {
     (state: any) => state.modifyString.isFetching
   );
   const isIndex = useSelector((state: any) => state.isIndex.index);
-  const user = useSelector((state: any) => state.authState.currentUser);
+  const isOpenSearch = useSelector((state: any) => state.openSearch.isOpen);
 
   const dispatch = useDispatch();
   const router = useRouter();
@@ -80,7 +81,6 @@ const Allpost = () => {
       }
     };
     fetchData();
-    document.body.style.overflowX = "hidden";
   }, [isFetchingPost, FetchingRemovedPost, isFetchingEdit]);
 
   return (
@@ -201,6 +201,7 @@ const Allpost = () => {
           ) : null}
         </div>
       ))}
+      {isOpenSearch ? <Search /> : null}
     </div>
   );
 };

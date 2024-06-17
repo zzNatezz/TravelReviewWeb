@@ -69,7 +69,7 @@ const StatusBar = () => {
   };
 
   return (
-    <div className="flex flex-row items-center gap-[2rem]">
+    <div className=" flex flex-row items-end gap-[2rem]">
       <Image
         width={45}
         height={45}
@@ -78,8 +78,11 @@ const StatusBar = () => {
         src={!userAvatar ? icon.defaultAvatar : userAvatar}
         alt="loading..."
       />
+
+      {/* ------- FROM START ------ */}
+
       <form
-        className="flex flex-row items-center gap-[2rem]"
+        className="flex flex-row items-end gap-[2rem]"
         onSubmit={handlePost}
       >
         <div>
@@ -128,6 +131,8 @@ const StatusBar = () => {
           Submit
         </button>
       </form>
+
+      {/* ------- FORM END ------ */}
     </div>
   );
 };
