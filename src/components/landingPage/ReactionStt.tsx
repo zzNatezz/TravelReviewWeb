@@ -1,4 +1,3 @@
-"use client";
 import icon from "@/asset/icon/icon";
 import React, { useEffect } from "react";
 import Image from "next/image";
@@ -28,7 +27,6 @@ const ReactionStt = ({ item, userId }: IReactStt) => {
   const likeFetching = useSelector(
     (state: any) => state.listLike.isLikeFetching
   );
-
   useEffect(() => {
     LikedPost(userId, dispatch);
   }, [likeFetching]);

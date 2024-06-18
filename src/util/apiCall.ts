@@ -189,7 +189,8 @@ export const  LikedPost = async (userId : string, dispatch : any) => {
         const res = await axios.get(`https://be-travel-review.vercel.app/v1/like/${userId}`)        
         dispatch(likeFinish(res?.data[0]?.listLike))
     } catch (error : any) {
-        console.log(function(){});
+        console.log('Dont trust anyone that tell you past anything into this field');
+        ;
         
     }
 }
